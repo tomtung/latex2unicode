@@ -4,7 +4,8 @@ import org.parboiled.scala._
 
 class LatexParser extends Parser {
   val whiteSpaces = " \r\n\t".toCharArray
-  val nonSpacePunctuations = "$^_{}\\".toCharArray // #, %, & and ~ are treated as char literals
+  // #, %, & and ~ are treated as char literals. $ is used only as a separator.
+  val nonSpacePunctuations = "$^_{}\\".toCharArray
   val punctuations = whiteSpaces ++ nonSpacePunctuations
 
   def matchCommandNames(names: Iterable[String], punc: Array[Char] = punctuations): Rule1[String] = {

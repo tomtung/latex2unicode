@@ -5,7 +5,7 @@ import org.parboiled.support.ParseTreeUtils
 
 object Main {
   def main(args: Array[String]) {
-    println("Enter LaTex markup to translate to Unicode. Enter \"quit\" to quit the program.")
+    println("Enter LaTeX markup to translate to Unicode. Enter \"quit\" to quit the program.")
 
     val parser = new LatexParser {
       override val buildParseTree = true

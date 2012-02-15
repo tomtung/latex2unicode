@@ -6,6 +6,7 @@ object EscapeTranslator {
   def translate(name: String) = escapes(name)
 
   val escapes = Map(
+    "$" -> "", // Ignore $
     "\\zeta" -> "ζ",
     "\\xi" -> "ξ",
     "\\wr" -> "≀",
