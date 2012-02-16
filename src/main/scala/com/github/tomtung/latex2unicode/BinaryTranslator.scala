@@ -23,14 +23,14 @@ object BinaryTranslator extends Parser {
     ("7", "8") -> "⅞"
   )
 
-  def translate(command: String, param1: String, param2: String): String = {
-    assert(command == "\\frac")
-
-    val p1 = param1.trim
-    val p2 = param2.trim
-    if (frac.contains((p1, p2)))
-      frac((p1, p2))
-    else
-      "(" + p1 + "/" + p2 + ")"
-  }
+  def translate(command: String, param1: String, param2: String): String = 
+    if (!names.contains(command)) ""
+    else {
+      val p1 = param1.trim
+      val p2 = param2.trim
+      if (frac.contains((p1, p2)))
+        frac((p1, p2))
+      else
+        "(" + p1 + "/" + p2 + ")"
+    }
 }

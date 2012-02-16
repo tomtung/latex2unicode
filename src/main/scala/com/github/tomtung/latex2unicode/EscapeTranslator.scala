@@ -1,9 +1,9 @@
 package com.github.tomtung.latex2unicode
 
 object EscapeTranslator {
-  def names = escapes.keys
+  def names = escapes.keySet
 
-  def translate(name: String) = escapes(name)
+  def translate(name: String) = if (!names.contains(name)) "" else escapes(name)
 
   val escapes = Map(
     "$" -> "", // Ignore $

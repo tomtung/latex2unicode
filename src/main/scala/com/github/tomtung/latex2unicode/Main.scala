@@ -18,8 +18,8 @@ object Main {
 
       try {
         val result = runner.run(input)
+		
         result.parseErrors.foreach(e => println(e + " (" + e.getStartIndex + "," + e.getEndIndex + ")"))
-
         val parseTreePrintOut = ParseTreeUtils.printNodeTree(result)
         println(parseTreePrintOut)
         println(result.result.getOrElse("<Unrecoverable error>"))

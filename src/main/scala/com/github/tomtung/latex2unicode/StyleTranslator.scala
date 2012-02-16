@@ -1,7 +1,7 @@
 package com.github.tomtung.latex2unicode
 
 object StyleTranslator {
-  lazy val names = alias.keys
+  lazy val names = alias.keySet
 
   val alias = Map(
     "\\bf" -> "\\mathbf",
@@ -10,7 +10,7 @@ object StyleTranslator {
     "\\tt" -> "\\mathtt"
   )
 
-  def translate(command: String, text: String): String = {
-    UnaryTranslator.translate(alias(command), text)
-  }
+  def translate(command: String, text: String): String = 
+    if (!names.contains(command)) ""
+    else UnaryTranslator.translate(alias(command), text)
 }

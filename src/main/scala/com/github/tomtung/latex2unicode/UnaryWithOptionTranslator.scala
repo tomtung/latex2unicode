@@ -10,9 +10,11 @@ object UnaryWithOptionTranslator {
     "4" -> "∜"
   )
 
-  def translate(command: String, option: String, param: String): String = {
-    assert(command == "\\sqrt")
-    sqrt.getOrElse(option.trim, UnaryTranslator.translate("^", option.trim) + "√") +
-      "(" + param.trim + ")"
-  }
+  def translate(command: String, option: String, param: String): String = 
+    if (!names.contains(command)) ""
+    else {
+      assert(command == "\\sqrt")
+      sqrt.getOrElse(option.trim, UnaryTranslator.translate("^", option.trim) + "√") +
+        "(" + param.trim + ")"
+    }
 }
