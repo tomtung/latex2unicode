@@ -9,6 +9,8 @@ libraryDependencies ++= Seq(
 		"org.parboiled" % "parboiled-scala" % "1.0.2"
 )
 
+crossPaths := false
+
 publishTo <<= (version) { version: String =>
       Some(Resolver.file("file", new File("./maven-repo") / {
         if  (version.trim.endsWith("SNAPSHOT"))  "snapshots"
