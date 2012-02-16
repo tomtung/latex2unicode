@@ -2,7 +2,9 @@ name := "latex2unicode"
 
 organization := "com.github.tomtung"
 
-scalaSource in Compile <<= baseDirectory(_ / "src")
+version := "0.1-SNAPSHOT"
+
+scalaVersion := "2.9.1"
 
 libraryDependencies ++= Seq(
 		"org.parboiled" % "parboiled-core" % "1.0.2",
