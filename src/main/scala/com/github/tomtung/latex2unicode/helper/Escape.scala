@@ -1,6 +1,6 @@
-package com.github.tomtung.latex2unicode.translator
+package com.github.tomtung.latex2unicode.helper
 
-object EscapeTranslator {
+object Escape {
   def names = escapes.keySet
 
   def translate(name: String) = if (!names.contains(name)) "" else escapes(name)

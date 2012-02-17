@@ -1,6 +1,6 @@
-package com.github.tomtung.latex2unicode.translator
+package com.github.tomtung.latex2unicode.helper
 
-object UnaryWithOptionTranslator {
+object UnaryWithOption {
   val names = Set("\\sqrt")
 
   val sqrt = Map(
@@ -14,7 +14,7 @@ object UnaryWithOptionTranslator {
     if (!names.contains(command)) ""
     else {
       assert(command == "\\sqrt")
-      sqrt.getOrElse(option.trim, UnaryTranslator.translate("^", option.trim) + "√") +
+      sqrt.getOrElse(option.trim, Unary.translate("^", option.trim) + "√") +
         "(" + param.trim + ")"
     }
 }

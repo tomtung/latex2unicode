@@ -1,65 +1,67 @@
 package com.github.tomtung.latex2unicode
 
 import org.parboiled.scala._
-import translator._
 
 /**
- * This is a Parboiled parser that contains the rules to convert LaTeX markup to Unicode. <br/>
- * This class can be used along with parboiled library to provide more flexibility in error report, recovery, etc.
- * You can also override command names fields (*Names) and translation methods (translate*) to change its behavior.
- * For simple conversion, use {@link com.github.tomtung.latex2unicode.LatexToUnicodeConverter#convert} in stead.
+ * A Parboiled parser that contains the rules to convert LaTeX markup to Unicode. <br/>
+ * You can override command names fields (*Names) or translation methods (translate*) to change its behavior.
+ * You can also use this class along with parboiled library to achive more flexibility in error report, recovery, etc.
  */
 class LatexParser extends Parser {
-  private val whiteSpaces = " \r\n\t".toCharArray
-  // #, %, & and ~ are treated as char literals. $ is used only as a separator.
-  private val nonSpacePunctuations = "$^_{}\\".toCharArray
-  private val punctuations = whiteSpaces ++ nonSpacePunctuations
 
-  private def matchCommandNames(names: Iterable[String], punc: Array[Char] = punctuations): Rule1[String] = {
+  protected val whiteSpaces = " \r\n\t".toCharArray
+  // #, %, & and ~ are treated as char literals. $ is used only as a separator.
+  protected val nonSpacePunctuations = "$^_{}\\".toCharArray
+  protected val punctuations = whiteSpaces ++ nonSpacePunctuations
+
+  protected def matchCommandNames(names: Iterable[String], punc: Array[Char] = punctuations): Rule1[String] = {
     def self[T](a: T): T = a
     def getRule(name: String): Rule0 = name ~
       (if (!punc.contains(name.last)) &(anyOf(punc) | EOI) else EMPTY)
 
     names.foldLeft(NOTHING)((rule, s) => rule | getRule(s)) ~> self
   }
-  
+
   // ------ Data ------
-  
-  val escapeNames = EscapeTranslator.names
-  
-  val unaryNames = UnaryTranslator.names
-  
-  val unaryWithOptionNames = UnaryWithOptionTranslator.names
 
-  val binaryNames = BinaryTranslator.names
+  protected def escapeNames = helper.Escape.names
 
-  val styleNames = StyleTranslator.names
-  
+  protected def unaryNames = helper.Unary.names
+
+  protected def unaryWithOptionNames = helper.UnaryWithOption.names
+
+  protected def binaryNames = helper.Binary.names
+
+  protected def styleNames = helper.Style.names
+
   // ------ Translation Method ------
 
-  def translateCharLiteral(matched: String) = matched
+  protected def translateCharLiteral(matched: String) = matched
 
-  def translateSpaces(matched: String) = " "
+  protected def translateSpaces(matched: String) = " "
 
-  def translateSpacesMultiNewLine(matched: String) = {
+  protected def translateSpacesMultiNewLine(matched: String) = {
     val newline = sys.props("line.separator")
     newline + newline
   }
 
-  def translateEscape(name: String): String = EscapeTranslator.translate(name)
-  
-  def translateUnary(command: String, param: String) = UnaryTranslator.translate(command, param)
-  
-  def translateUnaryWithOption(command: String, option: String, param: String) = UnaryWithOptionTranslator.translate(command, option, param)
-  
-  def translateBinary(command: String, param1: String, param2: String) = BinaryTranslator.translate(command, param1, param2)
-  
-  def translateStyle(command: String, text: String) = StyleTranslator.translate(command, text)
-  
-  def translateUnknownCommand(matched: String) = ""
-  
+  protected def translateEscape(name: String): String = helper.Escape.translate(name)
+
+  protected def translateUnary(command: String, param: String) = helper.Unary.translate(command, param)
+
+  protected def translateUnaryWithOption(command: String, option: String, param: String) = helper.UnaryWithOption.translate(command, option, param)
+
+  protected def translateBinary(command: String, param1: String, param2: String) = helper.Binary.translate(command, param1, param2)
+
+  protected def translateStyle(command: String, text: String) = helper.Style.translate(command, text)
+
+  protected def translateUnknownCommand(matched: String) = ""
+
   // ------ PEG definition ------
 
+  /**
+   * The starting rule.
+   */
   def Input: Rule1[String] = rule {
     (Text ~ EOI) | (EOI ~ push(""))
   }
@@ -126,11 +128,10 @@ class LatexParser extends Parser {
   }
 
   def Style: Rule1[String] = rule {
-    matchCommandNames(StyleTranslator.names) ~ Text ~~> translateStyle
+    matchCommandNames(styleNames) ~ Text ~~> translateStyle
   }
 
   def UnknownCommand: Rule1[String] = rule {
     "\\" ~ oneOrMore(noneOf(punctuations)) ~> translateUnknownCommand
   }
-  
 }

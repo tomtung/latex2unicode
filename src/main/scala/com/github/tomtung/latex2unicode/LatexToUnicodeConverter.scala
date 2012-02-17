@@ -1,12 +1,14 @@
 package com.github.tomtung.latex2unicode
 
-import org.parboiled.scala.parserunners.RecoveringParseRunner
+import org.parboiled.scala._
 
 /**
- * A simple utility class that converts LaTeX markup to Unicode whenever possible.
+ * A converter that converts LaTeX markup to Unicode.
+ * @param parser Parser used for conversion.
  */
-object LatexToUnicodeConverter {
-  private val runner = RecoveringParseRunner(new LatexParser().Input)
+class LatexToUnicodeConverter(parser: LatexParser) {
+
+  protected val runner: ParseRunner[String] = RecoveringParseRunner(parser.Input)
 
   /**
    * Converts LaTeX markup to Unicode whenever possible.
@@ -19,5 +21,9 @@ object LatexToUnicodeConverter {
     } catch {
       case _ => latex
     }
-
 }
+
+/**
+ * Simple utility class that converts LaTeX markup to Unicode
+ */
+object LatexToUnicodeConverter extends LatexToUnicodeConverter(new LatexParser())

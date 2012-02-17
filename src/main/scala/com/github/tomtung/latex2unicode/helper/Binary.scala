@@ -1,8 +1,8 @@
-package com.github.tomtung.latex2unicode.translator
+package com.github.tomtung.latex2unicode.helper
 
 import org.parboiled.scala.Parser
 
-object BinaryTranslator extends Parser {
+object Binary extends Parser {
   val names = Set("\\frac")
 
   val frac = Map(

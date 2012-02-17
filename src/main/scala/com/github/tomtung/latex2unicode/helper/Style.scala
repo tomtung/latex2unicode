@@ -1,6 +1,6 @@
-package com.github.tomtung.latex2unicode.translator
+package com.github.tomtung.latex2unicode.helper
 
-object StyleTranslator {
+object Style {
   lazy val names = alias.keySet
 
   val alias = Map(
@@ -12,5 +12,5 @@ object StyleTranslator {
 
   def translate(command: String, text: String): String =
     if (!names.contains(command)) ""
-    else UnaryTranslator.translate(alias(command), text)
+    else Unary.translate(alias(command), text)
 }

@@ -1,6 +1,6 @@
-package com.github.tomtung.latex2unicode.translator
+package com.github.tomtung.latex2unicode.helper
 
-object UnaryTranslator {
+object Unary {
 
   lazy val names = combining.keys ++ styles.keys ++ Set("\\not", "_", "^")
 
