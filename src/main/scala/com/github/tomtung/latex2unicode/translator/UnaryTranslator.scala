@@ -1,4 +1,4 @@
-package com.github.tomtung.latex2unicode
+package com.github.tomtung.latex2unicode.translator
 
 object UnaryTranslator {
 
@@ -194,7 +194,7 @@ object UnaryTranslator {
     '(' -> '⁽'
   )
 
-  val mathbb = Map(
+  val bb = Map(
     'z' -> "𝕫",
     'y' -> "𝕪",
     'x' -> "𝕩",
@@ -258,7 +258,7 @@ object UnaryTranslator {
     '1' -> "𝟙",
     '0' -> "𝟘"
   )
-  val mathbf = Map(
+  val bf = Map(
     '∇' -> "𝛁",
     '∂' -> "𝛛",
     'ϵ' -> "𝛜",
@@ -380,7 +380,7 @@ object UnaryTranslator {
     '1' -> "𝟏",
     '0' -> "𝟎"
   )
-  val mathcal = Map(
+  val cal = Map(
     'z' -> "𝔃",
     'y' -> "𝔂",
     'x' -> "𝔁",
@@ -435,7 +435,7 @@ object UnaryTranslator {
     'A' -> "𝓐"
   )
 
-  val mathfrak = Map(
+  val frak = Map(
     'z' -> "𝔷",
     'y' -> "𝔶",
     'x' -> "𝔵",
@@ -489,7 +489,7 @@ object UnaryTranslator {
     'B' -> "𝔅",
     'A' -> "𝔄"
   )
-  val mathit = Map(
+  val it = Map(
     '∇' -> "𝛻",
     '∂' -> "𝜕",
     'ϵ' -> "𝜖",
@@ -602,7 +602,7 @@ object UnaryTranslator {
     'A' -> "𝐴"
   )
 
-  val mathtt = Map(
+  val tt = Map(
     'z' -> "𝚣",
     'y' -> "𝚢",
     'x' -> "𝚡",
@@ -668,12 +668,18 @@ object UnaryTranslator {
   )
 
   val styles = Map(
-    "\\mathbb" -> mathbb,
-    "\\mathbf" -> mathbf,
-    "\\mathcal" -> mathcal,
-    "\\mathfrak" -> mathfrak,
-    "\\mathit" -> mathit,
-    "\\mathtt" -> mathtt
+    "\\mathbb" -> bb,
+    "\\textbb" -> bb,
+    "\\mathbf" -> bf,
+    "\\textbf" -> bf,
+    "\\mathcal" -> cal,
+    "\\textcal" -> cal,
+    "\\mathfrak" -> frak,
+    "\\textfrak" -> frak,
+    "\\mathit" -> it,
+    "\\textit" -> it,
+    "\\mathtt" -> tt,
+    "\\texttt" -> tt
   )
 
 }

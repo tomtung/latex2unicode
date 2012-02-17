@@ -1,4 +1,4 @@
-package com.github.tomtung.latex2unicode
+package com.github.tomtung.latex2unicode.translator
 
 object UnaryWithOptionTranslator {
   val names = Set("\\sqrt")
@@ -10,7 +10,7 @@ object UnaryWithOptionTranslator {
     "4" -> "∜"
   )
 
-  def translate(command: String, option: String, param: String): String = 
+  def translate(command: String, option: String, param: String): String =
     if (!names.contains(command)) ""
     else {
       assert(command == "\\sqrt")

@@ -1,4 +1,4 @@
-package com.github.tomtung.latex2unicode
+package com.github.tomtung.latex2unicode.translator
 
 import org.parboiled.scala.Parser
 
@@ -23,7 +23,7 @@ object BinaryTranslator extends Parser {
     ("7", "8") -> "⅞"
   )
 
-  def translate(command: String, param1: String, param2: String): String = 
+  def translate(command: String, param1: String, param2: String): String =
     if (!names.contains(command)) ""
     else {
       val p1 = param1.trim

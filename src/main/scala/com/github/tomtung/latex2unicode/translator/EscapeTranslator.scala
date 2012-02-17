@@ -1,4 +1,4 @@
-package com.github.tomtung.latex2unicode
+package com.github.tomtung.latex2unicode.translator
 
 object EscapeTranslator {
   def names = escapes.keySet
