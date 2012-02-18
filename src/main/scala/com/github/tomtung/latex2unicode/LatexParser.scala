@@ -135,3 +135,8 @@ class LatexParser extends Parser {
     "\\" ~ oneOrMore(noneOf(punctuations)) ~> translateUnknownCommand
   }
 }
+
+/**
+ * A LatexParser singleton.
+ */
+object LatexParser extends LatexParser

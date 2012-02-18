@@ -7,8 +7,7 @@ import org.parboiled.scala._
  * @param parser Parser used for conversion.
  */
 class LatexToUnicodeConverter(parser: LatexParser) {
-
-  protected val runner: ParseRunner[String] = RecoveringParseRunner(parser.Input)
+  def this() = this(LatexParser)
 
   /**
    * Converts LaTeX markup to Unicode whenever possible.
@@ -17,7 +16,7 @@ class LatexToUnicodeConverter(parser: LatexParser) {
    */
   def convert(latex: String): String =
     try {
-      runner.run(latex).result.getOrElse(latex)
+      RecoveringParseRunner(parser.Input).run(latex).result.getOrElse(latex)
     } catch {
       case _ => latex
     }
@@ -26,4 +25,4 @@ class LatexToUnicodeConverter(parser: LatexParser) {
 /**
  * Simple utility class that converts LaTeX markup to Unicode
  */
-object LatexToUnicodeConverter extends LatexToUnicodeConverter(new LatexParser())
+object LatexToUnicodeConverter extends LatexToUnicodeConverter
