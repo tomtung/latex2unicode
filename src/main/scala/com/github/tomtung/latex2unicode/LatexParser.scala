@@ -14,10 +14,10 @@ class LatexParser extends Parser {
   protected val nonSpacePunctuations = "$^_~{}\\".toCharArray
   protected val punctuations = whiteSpaces ++ nonSpacePunctuations
 
-  protected def matchCommandNames(names: Iterable[String], punc: Array[Char] = punctuations): Rule1[String] = {
+  protected def matchCommandNames(names: Iterable[String]): Rule1[String] = {
     def self[T](a: T): T = a
     def getRule(name: String): Rule0 = name ~
-      (if (!punc.contains(name.last)) &(anyOf(punc) | EOI) else EMPTY)
+      (if (name.last.isLetter) &(!("a" - "z" | "A" - "Z")) else EMPTY)
 
     names.foldLeft(NOTHING)((rule, s) => rule | getRule(s)) ~> self
   }
@@ -109,7 +109,7 @@ class LatexParser extends Parser {
   }
 
   def UnaryWithOption: Rule1[String] = rule {
-    matchCommandNames(unaryWithOptionNames, punctuations :+ '[') ~ optional(Spaces) ~
+    matchCommandNames(unaryWithOptionNames) ~ optional(Spaces) ~
       (CommandOption ~ optional(Spaces) | &(!str("[")) ~ EMPTY ~ push("")) ~
       Expression ~~> translateUnaryWithOption
   }
@@ -132,7 +132,9 @@ class LatexParser extends Parser {
   }
 
   def UnknownCommand: Rule1[String] = rule {
-    "\\" ~ oneOrMore(noneOf(punctuations)) ~> translateUnknownCommand
+    "\\" ~ oneOrMore("a" - "z" | "A" - "Z") ~ 
+        optional(optional(Spaces) ~ CommandOption ~~% (o=>{})) ~ 
+        optional(Spaces) ~> translateUnknownCommand
   }
 }
 
