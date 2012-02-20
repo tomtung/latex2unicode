@@ -149,6 +149,6 @@ LaTeX2Unicode is inspired by two similar projects, [latex-to-unicode by ypsu] \(
 
 LaTeX2Unicode is built on [parboiled], an elegant [PEG] parsing framework.
 
-# Liscence
+# Licence
 
 Apache License Version 2.0
