@@ -26,3 +26,9 @@ class LatexToUnicodeConverter(parser: LatexParser) {
  * Simple utility class that converts LaTeX markup to Unicode
  */
 object LatexToUnicodeConverter extends LatexToUnicodeConverter
+
+/**
+ * Simple utility class that converts LaTeX markup to Unicode. <br/>
+ * This object has no companion class, and thus is more friendly to Java.
+ */
+object DefaultLatexToUnicodeConverter extends LatexToUnicodeConverter
