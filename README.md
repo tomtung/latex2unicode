@@ -21,6 +21,7 @@ Basic math notations are supported. For instance:
 is converted to
 
 > ∵ A͡B + B͡C ≠ A͡C ∴ ∬∜(ξᶿ ⁺ ¹ - ⅜) ≤ Σ ζᵢ
+
 > ∴ ∃x∀y x ∈ Â
 
 Hundreds of other symbols and special characters are supported, too. For example, `\spadesuit`, `\aleph`, `\OE`, `\downdownarrows` and `\o` are translated to `♠`, `ℵ`, `Œ`, `⇊`, `ø`, respectively.
