@@ -6,6 +6,10 @@ version := "0.1-SNAPSHOT"
 
 scalaVersion := "2.9.1"
 
+licenses := Seq("Apache 2" -> url("http://www.apache.org/licenses/LICENSE-2.0.txt"))
+
+homepage := Some(url("https://github.com/tomtung/latex2unicode"))
+
 libraryDependencies ++= Seq(
 		"org.parboiled" % "parboiled-core" % "1.0.2",
 		"org.parboiled" % "parboiled-scala" % "1.0.2"
@@ -13,8 +17,29 @@ libraryDependencies ++= Seq(
 
 crossPaths := false
 
-publishTo <<= (version) { version: String =>
-      Some(Resolver.file("file", new File("./maven-repo") / {
-        if  (version.trim.endsWith("SNAPSHOT"))  "snapshots"
-        else                                     "releases/" }    ))
+publishMavenStyle := true
+
+publishArtifact in Test := false
+
+publishTo <<= version { (v: String) =>
+  val nexus = "https://oss.sonatype.org/"
+  if (v.trim.endsWith("SNAPSHOT")) 
+    Some("snapshots" at nexus + "content/repositories/snapshots") 
+  else
+    Some("releases"  at nexus + "service/local/staging/deploy/maven2")
 }
+
+pomIncludeRepository := { _ => false }
+
+pomExtra := (
+  <scm>
+    <url>git@github.com:tomtung/latex2unicode.git</url>
+    <connection>scm:git:git@github.com:tomtung/latex2unicode.git</connection>
+  </scm>
+  <developers>
+    <developer>
+      <id>tomtung</id>
+      <name>Tom Dong</name>
+      <url>http://tomtung.com</url>
+    </developer>
+  </developers>)
