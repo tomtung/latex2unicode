@@ -123,7 +123,7 @@ To add dependency on LaTeX2Unicode, insert the following to your `pom.xml` file 
 	<!-- Other repositories ... -->
     <repository>
         <id>Sonatype OSS Snapshots</id>
-        <url>http://oss.sonatype.org/content/repositories/snapshots/</url>
+        <url>https://oss.sonatype.org/content/repositories/snapshots/</url>
     </repository>
 </repositories>
 
@@ -142,7 +142,7 @@ or add the following to your `build.sbt` file if you use sbt 0.11+:
 ```scala
 libraryDependencies += "com.github.tomtung" % "latex2unicode" % "0.1-SNAPSHOT"
 
-resolvers += "Sonatype OSS Snapshots" at "http://oss.sonatype.org/content/repositories/snapshots/"
+resolvers += "Sonatype OSS Snapshots" at "https://oss.sonatype.org/content/repositories/snapshots/"
 ```
 # Credits
 
