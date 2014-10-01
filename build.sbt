@@ -6,7 +6,7 @@ version := "0.1-SNAPSHOT"
 
 scalaVersion := "2.11.2"
 
-crossScalaVersions := Seq("2.8.2", "2.9.2", "2.9.3", "2.10.4", "2.11.2")
+crossScalaVersions := Seq("2.9.3", "2.10.4", "2.11.2")
 
 licenses := Seq("Apache 2" -> url("http://www.apache.org/licenses/LICENSE-2.0.txt"))
 
