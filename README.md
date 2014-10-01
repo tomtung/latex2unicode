@@ -5,7 +5,7 @@
 [latex-to-unicode by ypsu]: https://github.com/ypsu/latex-to-unicode
 [latex-to-unicode by vikhyat]: https://github.com/vikhyat/latex-to-unicode
 
-# LaTeX2Unicode
+# LaTeX2Unicode [![Build Status](https://travis-ci.org/tomtung/latex2unicode.svg?branch=master)](https://travis-ci.org/tomtung/latex2unicode)
 
 LaTeX2Unicode translates LaTeX markup to human readable Unicode when possible. Here's an [online demo] that can be conveniently used to type in special characters. ([demo source])
 
@@ -131,7 +131,7 @@ To add dependency on LaTeX2Unicode, insert the following to your `pom.xml` file 
 	<!-- Other dependencies ... -->
     <dependency>
         <groupId>com.github.tomtung</groupId>
-        <artifactId>latex2unicode</artifactId>
+        <artifactId>latex2unicode_2.11</artifactId>
         <version>0.1-SNAPSHOT</version>
     </dependency>
 </dependencies>
@@ -140,7 +140,7 @@ To add dependency on LaTeX2Unicode, insert the following to your `pom.xml` file 
 or add the following to your `build.sbt` file if you use sbt 0.11+:
 
 ```scala
-libraryDependencies += "com.github.tomtung" % "latex2unicode" % "0.1-SNAPSHOT"
+libraryDependencies += "com.github.tomtung" %% "latex2unicode" % "0.1-SNAPSHOT"
 
 resolvers += "Sonatype OSS Snapshots" at "https://oss.sonatype.org/content/repositories/snapshots/"
 ```

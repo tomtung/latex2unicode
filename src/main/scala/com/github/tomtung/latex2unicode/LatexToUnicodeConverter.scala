@@ -18,7 +18,7 @@ class LatexToUnicodeConverter(parser: LatexParser) {
     try {
       RecoveringParseRunner(parser.Input).run(latex).result.getOrElse(latex)
     } catch {
-      case _ => latex
+      case _: Throwable => latex
     }
 }
 

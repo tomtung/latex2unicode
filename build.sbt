@@ -4,18 +4,18 @@ organization := "com.github.tomtung"
 
 version := "0.1-SNAPSHOT"
 
-scalaVersion := "2.9.1"
+scalaVersion := "2.11.2"
+
+crossScalaVersions := Seq("2.8.2", "2.9.2", "2.9.3", "2.10.4", "2.11.2")
 
 licenses := Seq("Apache 2" -> url("http://www.apache.org/licenses/LICENSE-2.0.txt"))
 
 homepage := Some(url("https://github.com/tomtung/latex2unicode"))
 
 libraryDependencies ++= Seq(
-		"org.parboiled" % "parboiled-core" % "1.0.2",
-		"org.parboiled" % "parboiled-scala" % "1.0.2"
+		"org.parboiled" % "parboiled-core" % "1.1.6",
+		"org.parboiled" %% "parboiled-scala" % "1.1.6"
 )
-
-crossPaths := false
 
 publishMavenStyle := true
 
