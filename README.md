@@ -1,7 +1,7 @@
 [online demo]: http://latex2unicode.herokuapp.com/
 [demo source]: https://github.com/tomtung/latex2unicode-demo
 [PEG]: https://en.wikipedia.org/wiki/Parsing_expression_grammar
-[parboiled]: https://github.com/sirthias/parboiled/wiki
+[fastparse]: http://www.lihaoyi.com/fastparse
 [latex-to-unicode by ypsu]: https://github.com/ypsu/latex-to-unicode
 [latex-to-unicode by vikhyat]: https://github.com/vikhyat/latex-to-unicode
 
@@ -13,16 +13,16 @@ Basic math notations are supported. For instance:
 
 ```
 \because \t{AB} + \t{BC} \neq \t{AC}
-\therefore \iint\sqrt[4]{\xi^{\theta + 1}
-- \frac 38} \le \Sigma \zeta_i \\
+\therefore \iint\sqrt[4]{\xi^{\theta+1}} - \frac 38 \le
+\Sigma \zeta_i \\
 \therefore \exists{x}\forall{y} x \in \^A
 ```
 
 is converted to
 
-> ∵ A͡B + B͡C ≠ A͡C ∴ ∬∜(ξᶿ ⁺ ¹ - ⅜) ≤ Σ ζᵢ
+> ∵ A͡B + B͡C ≠ A͡C ∴ ∬∜ξ̅ᶿ̅⁺̅¹̅ - ⅜ ≤ Σ ζᵢ
 
-> ∴ ∃x∀y x ∈ Â
+> ∴ ∃x∀y x ∈ Â
 
 Hundreds of other symbols and special characters are supported, too. For example, `\spadesuit`, `\aleph`, `\OE`, `\downdownarrows` and `\o` are translated to `♠`, `ℵ`, `Œ`, `⇊`, `ø`, respectively.
 
@@ -52,67 +52,20 @@ In Scala:
 import com.github.tomtung.latex2unicode._
 
 val latex = "\\ss^2 + \\alpha_3 \n \\div \\frac{1}{3} = \\sqrt[3]{123}"
-val unicode = LatexToUnicodeConverter.convert(latex)
+val unicode = LaTeX2Unicode.convert(latex)
 println(unicode)
 ```
 
 In Java:
 
 ```java
-import com.github.tomtung.latex2unicode.DefaultLatexToUnicodeConverter;
+import com.github.tomtung.latex2unicode.LaTeX2Unicode;
 
 String latex = "\\ss^2 + \\alpha_3 \n \\div \\frac{1}{3} = \\sqrt[3]{123}"
-String unicode = DefaultLatexToUnicodeConverter.convert(latex)
+String unicode = LaTeX2Unicode.convert(latex)
 System.out.println(unicode);
 ```
 
-## Customization
-
-Unicode2LaTeX defines a [PEG] to parse simple LaTeX markups, which stored in the `LatexParser` class:
-
-```
-Text ← (Expression / WhiteSpaces) Text?
-WhiteSpaces ← Spaces / SpacesMultiNewLine
-Expression ← CharLiteral / Group / Command
-Group ←  '{}' / '{'  Text '}'
-Command ← Escape / Unary / UnaryWithOption / Binary / Style / UnknownCommand
-Unary ← UnaryName Expression
-UnaryWithOption ← UnaryWithOptionName '[' Text ']' Expression
-Binary ← BinaryName Expression Expression
-Style ← StyleName Text
-UnknownCommand ← UnknownCommandName
-```
-(Details like matching optional spaces are omitted here.)
-
-### Customizing Translation Rules
-
-The ways how each rule is translated are saved in a groups of methods, whose names start with the word `translate`. You can override them to customize translation.
-
-For example, if you want to preserve all white space characters:
-
-```scala
-import com.github.tomtung.latex2unicode._
-
-val parser = new LatexParser{
-  override protected def translateSpaces(matched: String) = matched
-  override protected def translateSpacesMultiNewLine(matched: String) = matched
-}
-
-val converter = new LatexToUnicodeConverter(parser)
-
-val text = converter.convert("""
-This        is a
-test
-""")
-
-println(text)
-```
-
-Similarly, you can also override fields whose names end with the word `Names` (e.g. `escapeNames`, `unaryNames`) to customize how commands are matched, e.g. to add custom commands.
-
-### Working with Parboiled
-
-The `LatexParser` class extends the `org.parboiled.matchers.Parser` class, which is part of the [parboiled] library. You can use `LatexParser` with parboiled to achieve more flexibility, e.g. customizing error handling strategy.
 
 ## Maven / SBT Dependency
 
@@ -131,8 +84,8 @@ To add dependency on LaTeX2Unicode, insert the following to your `pom.xml` file 
 	<!-- Other dependencies ... -->
     <dependency>
         <groupId>com.github.tomtung</groupId>
-        <artifactId>latex2unicode_2.11</artifactId>
-        <version>0.1-SNAPSHOT</version>
+        <artifactId>latex2unicode_2.12</artifactId>
+        <version>0.2-SNAPSHOT</version>
     </dependency>
 </dependencies>
 ```
@@ -140,7 +93,7 @@ To add dependency on LaTeX2Unicode, insert the following to your `pom.xml` file 
 or add the following to your `build.sbt` file if you use sbt 0.11+:
 
 ```scala
-libraryDependencies += "com.github.tomtung" %% "latex2unicode" % "0.1-SNAPSHOT"
+libraryDependencies += "com.github.tomtung" %% "latex2unicode" % "0.2-SNAPSHOT"
 
 resolvers += "Sonatype OSS Snapshots" at "https://oss.sonatype.org/content/repositories/snapshots/"
 ```
@@ -148,7 +101,7 @@ resolvers += "Sonatype OSS Snapshots" at "https://oss.sonatype.org/content/repos
 
 LaTeX2Unicode is inspired by two similar projects, [latex-to-unicode by ypsu] \(written in Python\) and [latex-to-unicode by vikhyat] \(written in Ruby\).
 
-LaTeX2Unicode is built on [parboiled], an elegant [PEG] parsing framework.
+LaTeX2Unicode is built on [fastparse], an fast and elegant [PEG] parsing framework.
 
 # Licence
 

@@ -1,9 +1,7 @@
 package com.github.tomtung.latex2unicode.helper
 
-import org.parboiled.scala.Parser
-
-object Binary extends Parser {
-  val names = Set("\\frac")
+object Binary {
+  // \frac command
 
   val frac = Map(
     ("1", "2") -> "½",
@@ -23,14 +21,39 @@ object Binary extends Parser {
     ("7", "8") -> "⅞"
   )
 
-  def translate(command: String, param1: String, param2: String): String =
-    if (!names.contains(command)) ""
-    else {
-      val p1 = param1.trim
-      val p2 = param2.trim
-      if (frac.contains((p1, p2)))
-        frac((p1, p2))
-      else
-        "(" + p1 + "/" + p2 + ")"
+  def shouldParenthesizeStringWithChar(c: Char): Boolean = {
+    !c.isLetterOrDigit && !Unary.isCombiningChar(c) && {
+      val charType = c.getType
+      charType != Character.OTHER_NUMBER && charType != Character.CONNECTOR_PUNCTUATION
     }
+  }
+
+  def maybeParenthesize(s: String): String = {
+    if (!s.exists(shouldParenthesizeStringWithChar)) s
+    else s"($s)"
+  }
+
+  def makeFraction(numerator: String, denominator: String): String = {
+    val (n, d) = (numerator.trim, denominator.trim)
+    if (n.isEmpty && d.isEmpty) ""
+    else frac.get((numerator.trim, denominator.trim)) match {
+      case Some(s) =>
+        s
+      case None =>
+        s"(${maybeParenthesize(numerator)}/${maybeParenthesize(denominator)})"
+    }
+  }
+
+  // Common helper interface
+
+  val names = Set("\\frac")
+
+  def translate(command: String, param1: String, param2: String): String = {
+    if (!names.contains(command)) {
+      throw new IllegalArgumentException(s"Unknown command: $command")
+    }
+
+    assert(command == "\\frac")
+    makeFraction(param1.trim, param2.trim)
+  }
 }

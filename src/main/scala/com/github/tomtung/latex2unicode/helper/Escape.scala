@@ -1,38 +1,68 @@
 package com.github.tomtung.latex2unicode.helper
 
 object Escape {
-  def names = escapes.keySet
-
-  def translate(name: String) = if (!names.contains(name)) "" else escapes(name)
-
   val escapes = Map(
+    "\\&" -> "&",
+    "\\$" -> "$",
+    "\\{" -> "{",
+    "\\}" -> "}",
+    "\\%" -> "%",
+    "\\#" -> "#",
+    "\\_" -> "_",
+
     "$" -> "", // Ignore $
 
-	// Greek alphabet
+    "~" -> " ",
+    "\\;" -> " ",
+    "\\:" -> " ",
+    "\\," -> " ",
+    "\\quad" -> " ",
+    "\\qquad" -> " ",
+    """\\""" -> "\n",
+
+    "\\colon" -> ":",
+    "\\lbrack" -> "[",
+    "\\rbrack" -> "]",
+    "\\textasciicircum" -> "^",
+    "\\textbackslash" -> "\\",
+    "\\textless" -> "<",
+    "\\textgreater" -> ">",
+    "\\textbar" -> "|",
+    "\\textasciitilde" -> "~",
+    "\\textunderscore" -> "_",
+    "\\textendash" -> "–",
+    "\\texttrademark" -> "™",
+    "\\textexclamdown" -> "¡",
+    "\\textemdash" -> "—",
+    "\\textregistered" -> "®",
+    "\\textquestiondown" -> "¿",
+    "\\textvisiblespace" -> "␣",
+
+    // Greek alphabet
     "\\alpha" -> "α",
     "\\beta" -> "β",
-	"\\Gamma" -> "Γ",
+    "\\Gamma" -> "Γ",
     "\\gamma" -> "γ",
-	"\\Delta" -> "Δ",
+    "\\Delta" -> "Δ",
     "\\delta" -> "δ",
-	"\\zeta" -> "ζ",
+    "\\zeta" -> "ζ",
     "\\eta" -> "η",
-	"\\Theta" -> "Θ",
-	"\\theta" -> "θ",
-	"\\Iota" -> "Ι",
+    "\\Theta" -> "Θ",
+    "\\theta" -> "θ",
+    "\\Iota" -> "Ι",
     "\\iota" -> "ι",
-	"\\kappa" -> "κ",
+    "\\kappa" -> "κ",
     "\\Lambda" -> "Λ",
     "\\lambda" -> "λ",
     "\\mu" -> "μ",
-	"\\Nu" -> "Ν",
+    "\\Nu" -> "Ν",
     "\\nu" -> "ν",
     "\\Xi" -> "Ξ",
     "\\xi" -> "ξ",
     "\\Pi" -> "Π",
     "\\pi" -> "π",
     "\\rho" -> "ρ",
-	"\\Sigma" -> "Σ",
+    "\\Sigma" -> "Σ",
     "\\sigma" -> "σ",
     "\\tau" -> "τ",
     "\\Upsilon" -> "Υ",
@@ -44,7 +74,10 @@ object Escape {
     "\\psi" -> "ψ",
     "\\Omega" -> "Ω",
     "\\omega" -> "ω",
-	
+
+    "\\P" -> "¶",
+    "\\S" -> "§",
+    "\\|" -> "‖",
     "\\wr" -> "≀",
     "\\wp" -> "℘",
     "\\wedge" -> "∧",
@@ -159,6 +192,7 @@ object Escape {
     "\\nexists" -> "∄",
     "\\neq" -> "≠",
     "\\neg" -> "¬",
+    "\\lnot" -> "¬",
     "\\nearrow" -> "↗",
     "\\natural" -> "♮",
     "\\nabla" -> "∇",
@@ -236,7 +270,7 @@ object Escape {
     "\\equiv" -> "≡",
     "\\eqcirc" -> "≖",
     "\\epsilon" -> "∊",
-	"\\Epsilon" -> "Ε",
+    "\\Epsilon" -> "Ε",
     "\\emptyset" -> "∅",
     "\\ell" -> "ℓ",
     "\\downharpoonright" -> "⇂",
@@ -244,6 +278,7 @@ object Escape {
     "\\downdownarrows" -> "⇊",
     "\\downarrow" -> "↓",
     "\\dots" -> "…",
+    "\\ldots" -> "…",
     "\\dotplus" -> "∔",
     "\\doteqdot" -> "≑",
     "\\doteq" -> "≐",
@@ -253,11 +288,13 @@ object Escape {
     "\\diamondsuit" -> "♢",
     "\\diamond" -> "⋄",
     "\\ddots" -> "⋱",
+    "\\ddag" -> "‡",
     "\\ddagger" -> "‡",
     "\\dashv" -> "⊣",
     "\\dashrightarrow" -> "⇢",
     "\\dashleftarrow" -> "⇠",
     "\\daleth" -> "ד",
+    "\\dag" -> "†",
     "\\dagger" -> "†",
     "\\curvearrowright" -> "↷",
     "\\curvearrowleft" -> "↶",
@@ -359,25 +396,28 @@ object Escape {
     "\\o" -> "ø",
     "\\O" -> "Ø",
     "\\i" -> "ı",
+    "\\imath" -> "ı",
     "\\j" -> "ȷ",
+    "\\jmath" -> "ȷ",
     "\\L" -> "Ł",
     "\\l" -> "ł",
     "\\ss" -> "ß",
     "\\aleph" -> "ℵ",
-    "\\&" -> "&",
-    "\\$" -> "$",
-    "\\{" -> "{",
-    "\\}" -> "}",
-    "\\%" -> "%",
-    "\\#" -> "#",
-    "\\_ " -> "_",
-    "\\textasciicircum" -> "^",
-    "\\textbackslash" -> "\\",
-    "\\quad" -> " ",
-    "\\qquad" -> " ",
-    "\\;" -> " ",
-    "\\:" -> " ",
-    "\\," -> " ",
-    """\\""" -> "\n"
+    "\\copyright" -> "©",
+    "\\pounds" -> "£",
+    "\\euro" -> "€",
+    "\\EUR" -> "€",
+    "\\texteuro" -> "€"
   )
+
+  val names: Set[String] = escapes.keySet
+
+  def translate(name: String): String = {
+    if (!names.contains(name)) {
+      throw new IllegalArgumentException(s"Unknown command: $name")
+    }
+
+    escapes(name)
+  }
+
 }

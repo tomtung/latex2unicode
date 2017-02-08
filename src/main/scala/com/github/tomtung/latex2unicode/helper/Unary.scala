@@ -2,94 +2,154 @@ package com.github.tomtung.latex2unicode.helper
 
 object Unary {
 
-  lazy val names = combining.keys ++ styles.keys ++ Set("\\not", "_", "^")
+  // Commands that adds a combining character
 
-  def translate(command: String, param: String): String = {
-    (command, param.trim) match {
-      case ("\\^", "") => "^"
-      case ("\\~", "") => "~"
-      case (_, "") => ""
-      case ("_", _) =>
-        param.map(c => subscripts.getOrElse(c, c))
-      case ("^", _) =>
-        param.map(c => superscripts.getOrElse(c, c))
-      case ("\\not", _) =>
-        not.getOrElse(param.head, "¬" + param.head) + param.tail
-      case _ =>
-        if (combining.contains(command))
-          param.head + combining(command) + param.tail
-        else if (styles.contains(command)) {
-          val map = styles(command)
-          param.map(c => map.getOrElse(c, c.toString)).mkString
+  object CombiningType extends Enumeration {
+    type CombiningType = Value
+    val FirstChar, LastChar, EveryChar = Value
+  }
+
+  val combining: Map[String, (Char, CombiningType.Value)] = Map(
+    "\\grave" -> ('\u0300', CombiningType.FirstChar),
+    "\\`" -> ('\u0300', CombiningType.FirstChar),
+    "\\acute" -> ('\u0301', CombiningType.FirstChar),
+    "\\'" -> ('\u0301', CombiningType.FirstChar),
+    "\\hat" -> ('\u0302', CombiningType.FirstChar),
+    "\\^" -> ('\u0302', CombiningType.FirstChar),
+    "\\tilde" -> ('\u0303', CombiningType.FirstChar),
+    "\\~" -> ('\u0303', CombiningType.FirstChar),
+    "\\bar" -> ('\u0304', CombiningType.FirstChar),
+    "\\=" -> ('\u0304', CombiningType.FirstChar),
+    "\\overline" -> ('\u0305', CombiningType.EveryChar),
+    "\\breve" -> ('\u0306', CombiningType.FirstChar),
+    "\\u" -> ('\u0306', CombiningType.FirstChar),
+    "\\dot" -> ('\u0307', CombiningType.FirstChar),
+    "\\." -> ('\u0307', CombiningType.FirstChar),
+    "\\ddot" -> ('\u0308', CombiningType.FirstChar),
+    "\\\"" -> ('\u0308', CombiningType.FirstChar),
+    "\\mathring" -> ('\u030A', CombiningType.FirstChar),
+    "\\r" -> ('\u030A', CombiningType.FirstChar),
+    "\\H" -> ('\u030B', CombiningType.FirstChar),
+    "\\check" -> ('\u030C', CombiningType.FirstChar),
+    "\\v" -> ('\u030C', CombiningType.FirstChar),
+    "\\d" -> ('\u0323', CombiningType.FirstChar),
+    "\\c" -> ('\u0327', CombiningType.FirstChar),
+    "\\k" -> ('\u0328', CombiningType.LastChar),
+    "\\b" -> ('\u0332', CombiningType.FirstChar),
+    "\\underline" -> ('\u0332', CombiningType.EveryChar),
+    "\\underbar" -> ('\u0332', CombiningType.EveryChar),
+    "\\t" -> ('\u0361', CombiningType.FirstChar),
+    "\\vec" -> ('\u20D7', CombiningType.FirstChar),
+    "\\textcircled" -> ('\u20DD', CombiningType.FirstChar)
+  )
+
+  def isCombiningChar(char: Char): Boolean = {
+    '\u0300' <= char && char <= '\u036F' ||
+      '\u1AB0' <= char && char <= '\u1AFF' ||
+      '\u1DC0' <= char && char <= '\u1DFF' ||
+      '\u20D0' <= char && char <= '\u20FF' ||
+      '\uFE20' <= char && char <= '\uFE20'
+  }
+
+  def isCombiningOrControlChar(char: Char): Boolean = {
+    Character.isISOControl(char) || isCombiningChar(char)
+  }
+
+  def isCombiningCommand(command: String): Boolean = combining.contains(command)
+
+  def translateCombining(command: String, str: String): String = {
+    if (!isCombiningCommand(command)) {
+      throw new RuntimeException(s"Unknown combining command: $command")
+    }
+
+    val strOrSpace = {
+      if (str.isEmpty) " "
+      else str
+    }
+
+    val (combiningChar, combiningType) = combining(command)
+    combiningType match {
+      case CombiningType.FirstChar =>
+        var i = 1
+        // Find the position after the last combining char that decorates the first char
+        while (i < strOrSpace.length && isCombiningOrControlChar(strOrSpace(i))) {
+          i += 1
         }
-        else ""
+        // Then insert the new combining char there
+        strOrSpace.substring(0, i) + combiningChar + strOrSpace.substring(i)
+
+      case CombiningType.LastChar =>
+        strOrSpace + combiningChar
+
+      case CombiningType.EveryChar if str.isEmpty => ""
+
+      case CombiningType.EveryChar =>
+        val builder = StringBuilder.newBuilder
+
+        var i = 0
+        while (i < str.length) {
+          // Push a non-combining char
+          builder += str(i)
+          i += 1
+          // Then push subsequent combining chars that decorates it
+          while (i < str.length && isCombiningOrControlChar(str(i))) {
+            builder += str(i)
+            i += 1
+          }
+          // Finally insert the new combining char
+          builder += combiningChar
+        }
+
+        builder.result()
     }
   }
 
-  val combining = Map(
-    "\\hat" -> "\u0302",
-    "\\^" -> "\u0302",
-    "\\breve" -> "\u0306",
-    "\\u" -> "\u0306",
-    "\\grave" -> "\u0300",
-    "\\`" -> "\u0300",
-    "\\bar" -> "\u0304",
-    "\\=" -> "\u0304",
-    "\\check" -> "\u030C",
-    "\\v" -> "\u030C",
-    "\\acute" -> "\u0301",
-    "\\'" -> "\u0301",
-    "\\tilde" -> "\u0303",
-    "\\~" -> "\u0303",
-    "\\vec" -> "\u20D7",
-    "\\dot" -> "\u0307",
-    "\\." -> "\u0307",
-    "\\ddot" -> "\u0308",
-    "\\\"" -> "\u0308",
-    "\\mathring" -> "\u030A",
-    "\\H" -> "\u030B",
-    "\\c" -> "\u0327",
-    "\\k" -> "\u0328",
-    "\\b" -> "\u0332",
-    "\\d" -> "\u0323",
-    "\\r" -> "\u030A",
-    "\\t" -> "\u0361"
-  )
+  // \not command
 
   val not = Map(
-    '∃' -> '∄',
-    '∈' -> '∉',
-    '∋' -> '∌',
-    '⊂' -> '⊄',
-    '⊃' -> '⊅',
-    '⊆' -> '⊈',
-    '⊇' -> '⊉',
-    '≃' -> '≄',
-    '∣' -> '∤',
-    '∥' -> '∦',
-    '=' -> '≠',
-    '≈' -> '≉',
-    '≡' -> '≢',
-    '<' -> '≮',
-    '>' -> '≯',
-    '≤' -> '≰',
-    '≥' -> '≱',
-    '≲' -> '≴',
-    '≳' -> '≵',
-    '≶' -> '≸',
-    '≷' -> '≹',
-    '∼' -> '≁',
-    '~' -> '≁',
-    '≃' -> '≄',
-    '⊒' -> '⋣',
-    '⊑' -> '⋢',
-    '⊴' -> '⋬',
-    '⊵' -> '⋭',
-    '◁' -> '⋪',
-    '▷' -> '⋫',
-    '⋞' -> '⋠',
-    '⋟' -> '⋡'
+    "∃" -> "∄",
+    "∈" -> "∉",
+    "∋" -> "∌",
+    "⊂" -> "⊄",
+    "⊃" -> "⊅",
+    "⊆" -> "⊈",
+    "⊇" -> "⊉",
+    "≃" -> "≄",
+    "∣" -> "∤",
+    "∥" -> "∦",
+    "=" -> "≠",
+    "≈" -> "≉",
+    "≡" -> "≢",
+    "<" -> "≮",
+    ">" -> "≯",
+    "≤" -> "≰",
+    "≥" -> "≱",
+    "≲" -> "≴",
+    "≳" -> "≵",
+    "≶" -> "≸",
+    "≷" -> "≹",
+    "∼" -> "≁",
+    "~" -> "≁",
+    "≃" -> "≄",
+    "⊒" -> "⋣",
+    "⊑" -> "⋢",
+    "⊴" -> "⋬",
+    "⊵" -> "⋭",
+    "◁" -> "⋪",
+    "▷" -> "⋫",
+    "⋞" -> "⋠",
+    "⋟" -> "⋡"
   )
+
+  def makeNot(negated: String): String = {
+    val s = negated.trim match {
+      case "" => " "
+      case trimmed => trimmed
+    }
+    not.getOrElse(s, s.head + "\u0338" + s.tail)
+  }
+
+  // Subscripts
 
   val subscripts = Map(
     'χ' -> 'ᵪ',
@@ -103,7 +163,7 @@ object Unary {
     'r' -> 'ᵣ',
     'o' -> 'ₒ',
     'i' -> 'ᵢ',
-	'j' -> 'ⱼ',
+    'j' -> 'ⱼ',
     'e' -> 'ₑ',
     'a' -> 'ₐ',
     '=' -> '₌',
@@ -120,8 +180,24 @@ object Unary {
     '-' -> '₋',
     '+' -> '₊',
     ')' -> '₎',
-    '(' -> '₍'
+    '(' -> '₍',
+    ' ' -> ' '
   )
+
+  def tryMakeSubscript(str: String): Option[String] = {
+    if (str.isEmpty) Some("")
+    else if (str.forall(subscripts.contains)) Some(str.map(subscripts))
+    else None
+  }
+
+  def makeSubscript(str: String): String = {
+    str.trim match {
+      case "" => ""
+      case s => tryMakeSubscript(s).getOrElse(s"_($s)")
+    }
+  }
+
+  // Superscripts
 
   val superscripts = Map(
     '∊' -> 'ᵋ',
@@ -192,8 +268,25 @@ object Unary {
     '-' -> '⁻',
     '+' -> '⁺',
     ')' -> '⁾',
-    '(' -> '⁽'
+    '(' -> '⁽',
+    '∘' -> '°',
+    ' ' -> ' '
   )
+
+  def tryMakeSuperScript(str: String): Option[String] = {
+    if (str.isEmpty) Some("")
+    else if (str.forall(superscripts.contains)) Some(str.map(superscripts))
+    else None
+  }
+
+  def makeSuperScript(str: String): String = {
+    str.trim match {
+      case "" => ""
+      case s => tryMakeSuperScript(s).getOrElse(s"^($s)")
+    }
+  }
+
+  // Styles command
 
   val bb = Map(
     'z' -> "𝕫",
@@ -259,6 +352,7 @@ object Unary {
     '1' -> "𝟙",
     '0' -> "𝟘"
   )
+
   val bf = Map(
     '∇' -> "𝛁",
     '∂' -> "𝛛",
@@ -381,6 +475,7 @@ object Unary {
     '1' -> "𝟏",
     '0' -> "𝟎"
   )
+
   val cal = Map(
     'z' -> "𝔃",
     'y' -> "𝔂",
@@ -490,6 +585,7 @@ object Unary {
     'B' -> "𝔅",
     'A' -> "𝔄"
   )
+
   val it = Map(
     '∇' -> "𝛻",
     '∂' -> "𝜕",
@@ -682,5 +778,34 @@ object Unary {
     "\\mathtt" -> tt,
     "\\texttt" -> tt
   )
+
+  def isStylesCommand(command: String): Boolean = styles.contains(command)
+
+  def translateStyles(command: String, str: String): String = {
+    if (!isStylesCommand(command)) {
+      throw new RuntimeException(s"Unknown styles command: $command")
+    }
+
+    val map = styles(command)
+    str.map(c => map.getOrElse(c, c.toString)).mkString
+  }
+
+  // Common helper interface
+
+  val names: Set[String] = Set("\\not", "_", "^", "\\textsubscript", "\\textsuperscript") ++ combining.keys ++ styles.keys
+
+  def translate(command: String, param: String): String = {
+    if (!names.contains(command)) {
+      throw new IllegalArgumentException(s"Unknown command: $command")
+    }
+
+    command match {
+      case "_" | "\\textsubscript" => makeSubscript(param)
+      case "^" | "\\textsuperscript" => makeSuperScript(param)
+      case "\\not" => makeNot(param)
+      case _ if isCombiningCommand(command) => translateCombining(command, param)
+      case _ if isStylesCommand(command) => translateStyles(command, param)
+    }
+  }
 
 }

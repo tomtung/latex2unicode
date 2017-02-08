@@ -2,44 +2,44 @@ name := "latex2unicode"
 
 organization := "com.github.tomtung"
 
-version := "0.1-SNAPSHOT"
+version := "0.2-SNAPSHOT"
 
-scalaVersion := "2.11.2"
+scalaVersion := "2.12.1"
 
-crossScalaVersions := Seq("2.9.3", "2.10.4", "2.11.2")
+crossScalaVersions := Seq("2.11.8", "2.12.1")
 
 licenses := Seq("Apache 2" -> url("http://www.apache.org/licenses/LICENSE-2.0.txt"))
 
 homepage := Some(url("https://github.com/tomtung/latex2unicode"))
 
+pomIncludeRepository := { _ => false }
+
 libraryDependencies ++= Seq(
-		"org.parboiled" % "parboiled-core" % "1.1.6",
-		"org.parboiled" %% "parboiled-scala" % "1.1.6"
+  "com.lihaoyi" %% "fastparse" % "0.4.2",
+  "org.scalatest" %% "scalatest" % "3.0.1" % "test"
 )
 
 publishMavenStyle := true
 
 publishArtifact in Test := false
 
-publishTo <<= version { (v: String) =>
+publishTo := {
   val nexus = "https://oss.sonatype.org/"
-  if (v.trim.endsWith("SNAPSHOT")) 
-    Some("snapshots" at nexus + "content/repositories/snapshots") 
+  if (version.value.trim.endsWith("SNAPSHOT"))
+    Some("snapshots" at nexus + "content/repositories/snapshots")
   else
-    Some("releases"  at nexus + "service/local/staging/deploy/maven2")
+    Some("releases" at nexus + "service/local/staging/deploy/maven2")
 }
-
-pomIncludeRepository := { _ => false }
 
 pomExtra := (
   <scm>
     <url>git@github.com:tomtung/latex2unicode.git</url>
     <connection>scm:git:git@github.com:tomtung/latex2unicode.git</connection>
   </scm>
-  <developers>
-    <developer>
-      <id>tomtung</id>
-      <name>Tom Dong</name>
-      <url>http://tomtung.com</url>
-    </developer>
-  </developers>)
+    <developers>
+      <developer>
+        <id>tomtung</id>
+        <name>Tom Dong</name>
+        <url>http://tomtung.com</url>
+      </developer>
+    </developers>)
