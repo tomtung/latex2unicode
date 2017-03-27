@@ -72,30 +72,17 @@ System.out.println(unicode);
 To add dependency on LaTeX2Unicode, insert the following to your `pom.xml` file if you use Apache Maven:
 
 ```xml
-<repositories>
-	<!-- Other repositories ... -->
-    <repository>
-        <id>Sonatype OSS Snapshots</id>
-        <url>https://oss.sonatype.org/content/repositories/snapshots/</url>
-    </repository>
-</repositories>
-
-<dependencies>
-	<!-- Other dependencies ... -->
-    <dependency>
-        <groupId>com.github.tomtung</groupId>
-        <artifactId>latex2unicode_2.12</artifactId>
-        <version>0.2-SNAPSHOT</version>
-    </dependency>
-</dependencies>
+<dependency>
+    <groupId>com.github.tomtung</groupId>
+    <artifactId>latex2unicode_2.12</artifactId>
+    <version>0.2</version>
+</dependency>
 ```
 
 or add the following to your `build.sbt` file if you use sbt 0.11+:
 
 ```scala
-libraryDependencies += "com.github.tomtung" %% "latex2unicode" % "0.2-SNAPSHOT"
-
-resolvers += "Sonatype OSS Snapshots" at "https://oss.sonatype.org/content/repositories/snapshots/"
+libraryDependencies += "com.github.tomtung" %% "latex2unicode" % "0.2"
 ```
 # Credits
 

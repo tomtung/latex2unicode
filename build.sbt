@@ -2,7 +2,7 @@ name := "latex2unicode"
 
 organization := "com.github.tomtung"
 
-version := "0.2-SNAPSHOT"
+version := "0.2"
 
 scalaVersion := "2.12.1"
 
