@@ -296,6 +296,7 @@ object Escape {
     "\\daleth" -> "ד",
     "\\dag" -> "†",
     "\\dagger" -> "†",
+    "\\textdagger" -> "†",
     "\\curvearrowright" -> "↷",
     "\\curvearrowleft" -> "↶",
     "\\curlywedge" -> "⋏",
