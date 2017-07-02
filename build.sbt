@@ -2,11 +2,11 @@ name := "latex2unicode"
 
 organization := "com.github.tomtung"
 
-version := "0.2"
+version := "0.2.1"
 
 scalaVersion := "2.12.1"
 
-crossScalaVersions := Seq("2.11.8", "2.12.1")
+crossScalaVersions := Seq("2.11.11", "2.12.2")
 
 licenses := Seq("Apache 2" -> url("http://www.apache.org/licenses/LICENSE-2.0.txt"))
 
