@@ -75,14 +75,14 @@ To add dependency on LaTeX2Unicode, insert the following to your `pom.xml` file 
 <dependency>
     <groupId>com.github.tomtung</groupId>
     <artifactId>latex2unicode_2.12</artifactId>
-    <version>0.2.2</version>
+    <version>0.2.3</version>
 </dependency>
 ```
 
 or add the following to your `build.sbt` file if you use sbt 0.11+:
 
 ```scala
-libraryDependencies += "com.github.tomtung" %% "latex2unicode" % "0.2.2"
+libraryDependencies += "com.github.tomtung" %% "latex2unicode" % "0.2.3"
 ```
 # Credits
 
