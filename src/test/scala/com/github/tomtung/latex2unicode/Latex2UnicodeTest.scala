@@ -160,8 +160,7 @@ class LaTeX2UnicodeTest extends FunSuite {
   }
 
   test("Unknown commands") {
-    val str = "\\this \\is \\a \\test"
-    LaTeX2Unicode.convert(str) shouldBe str
+    LaTeX2Unicode.convert("""\this \is \alpha test""") shouldBe """\this \is α test"""
   }
 
 }

@@ -48,8 +48,8 @@ object LaTeX2Unicode {
 
     private val commandBlockInOption = P(name.flatMap(s => {
       // Ignoring styles in command option is just for simplicity
-      if (helper.Style.names.contains(s) || !nameToParser.contains(s)) PassWith("")
-      else nameToParser(s)
+      if (helper.Style.names.contains(s)) PassWithEmptyString
+      else nameToParser.getOrElse(s, PassWith(s))
     }))
     private val blockInOption: Parser[String] = P(literalCharsBlockInOption | bracketBlock | commandBlockInOption)
 
@@ -95,11 +95,7 @@ object LaTeX2Unicode {
       builder.result()
     }
 
-    val block: Parser[String] = {
-      val knownCommandBlock = name.filter(nameToParser.contains).flatMap(nameToParser)
-      val unknownCommand = name
-      P(knownCommandBlock | unknownCommand)
-    }
+    val block: Parser[String] = name.flatMap(s => nameToParser.getOrElse(s, PassWith(s)))
   }
 
   private val block: Parser[String] = P(spacesBlock | literalCharsBlock | bracketBlock | command.block)
