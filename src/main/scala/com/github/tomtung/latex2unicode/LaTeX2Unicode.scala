@@ -95,7 +95,11 @@ object LaTeX2Unicode {
       builder.result()
     }
 
-    val block: Parser[String] = P(name.flatMap(s => nameToParser.getOrElse(s, PassWithEmptyString)))
+    val block: Parser[String] = {
+      val knownCommandBlock = name.filter(nameToParser.contains).flatMap(nameToParser)
+      val unknownCommand = name
+      P(knownCommandBlock | unknownCommand)
+    }
   }
 
   private val block: Parser[String] = P(spacesBlock | literalCharsBlock | bracketBlock | command.block)

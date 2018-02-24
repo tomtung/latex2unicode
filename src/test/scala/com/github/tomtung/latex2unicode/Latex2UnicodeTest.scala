@@ -159,4 +159,9 @@ class LaTeX2UnicodeTest extends FunSuite {
     LaTeX2Unicode.parse("\\frac\n\n{}{}") shouldBe a[Failure]
   }
 
+  test("Unknown commands") {
+    val str = "\\this \\is \\a \\test"
+    LaTeX2Unicode.convert(str) shouldBe str
+  }
+
 }
