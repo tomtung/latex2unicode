@@ -4,7 +4,7 @@ object LaTeX2Unicode {
 
   import fastparse.all._
 
-  private def isLiteralChar(c: Char): Boolean = !c.isWhitespace && "$^_~{}\\".indexOf(c) == -1
+  private def isLiteralChar(c: Char): Boolean = !c.isWhitespace && "$^-_~{}\\".indexOf(c) == -1
 
   private val spacesCountNewLines: Parser[Int] = P(CharsWhile(_.isWhitespace).! ~/ Pass).map(_.count(_ == '\n'))
 
@@ -39,7 +39,7 @@ object LaTeX2Unicode {
     private val param: Parser[String] = P(bracketBlock | command.block | P(CharPred(isLiteralChar).!))
 
     private val name: Parser[String] = P(
-      (CharIn("$^_~").! ~/ Pass) |
+      (("-".rep(1) | CharIn("$^_~")).! ~/ Pass) |
         ("\\" ~/ (CharsWhile(_.isLetter) | AnyChar) ~/ Pass).!
     )
 

@@ -30,6 +30,10 @@ class LaTeX2UnicodeTest extends FunSuite {
     LaTeX2Unicode.convert("""\S\{this is ~$\alpha$~ test\}""") shouldBe "§{this is  α  test}"
   }
 
+  test("Dashes") {
+    LaTeX2Unicode.convert("5-1 is between 1--10---obviously. ----anonymous") shouldBe "5-1 is between 1–10—obviously. ----anonymous"
+  }
+
   test("Subscript") {
     LaTeX2Unicode.convert("i_{}") shouldBe "i"
     LaTeX2Unicode.convert("i_123") shouldBe "i₁23"
