@@ -43,3 +43,7 @@ pomExtra := (
         <url>http://tomtung.com</url>
       </developer>
     </developers>)
+
+packageOptions in (Compile, packageBin) += Package.ManifestAttributes(
+  "Automatic-Module-Name" -> "com.github.tomtung.latex2unicode"
+)
