@@ -2,7 +2,7 @@ name := "latex2unicode"
 
 organization := "com.github.tomtung"
 
-version := "0.2.4"
+version := "0.3.0"
 
 scalaVersion := "2.12.4"
 
@@ -15,7 +15,7 @@ homepage := Some(url("https://github.com/tomtung/latex2unicode"))
 pomIncludeRepository := { _ => false }
 
 libraryDependencies ++= Seq(
-  "com.lihaoyi" %% "fastparse" % "0.4.2",
+  "com.lihaoyi" %% "fastparse" % "1.0.0",
   "org.scalatest" %% "scalatest" % "3.0.1" % "test"
 )
 
