@@ -49,7 +49,7 @@ object LaTeX2Unicode {
     private val commandBlockInOption = P(name.flatMap(s => {
       // Ignoring styles in command option is just for simplicity
       if (helper.Style.names.contains(s)) PassWithEmptyString
-      else nameToParser.getOrElse(s, PassWith(s))
+      else nameToParser.getOrElse(s, unknownCommand(s))
     }))
     private val blockInOption: Parser[String] = P(literalCharsBlockInOption | bracketBlock | commandBlockInOption)
 
@@ -95,7 +95,21 @@ object LaTeX2Unicode {
       builder.result()
     }
 
-    val block: Parser[String] = name.flatMap(s => nameToParser.getOrElse(s, PassWith(s)))
+    val block: Parser[String] = name.flatMap(s => nameToParser.getOrElse(s, unknownCommand(s)))
+
+    private def unknownCommand(command: String): Parser[String] = {
+      if (!command.startsWith("\\")) {
+        // Is not a command in the strong sense, so just return
+        return PassWith(command)
+      }
+
+      val parserNoParam = PassWith(command)
+      val parserUnary = P(param).map(p => command + p)
+      val parserBinary = P(param ~ param).map({ case (p1, p2) => command + "{" + p1 + "}" + "{" + p2 + "}"})
+      val parserTernary = P(param ~ param ~ param).map({ case (p1, p2, p3) => command + "{" + p1 + "}" + "{" + p2 + "}" + "{" + p3 + "}"})
+
+      P(parserTernary | parserBinary | parserUnary | parserNoParam)
+    }
   }
 
   private val block: Parser[String] = P(spacesBlock | literalCharsBlock | bracketBlock | command.block)
