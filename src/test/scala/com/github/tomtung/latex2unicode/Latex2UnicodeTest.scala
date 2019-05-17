@@ -122,6 +122,7 @@ class LaTeX2UnicodeTest extends FunSuite {
   test("\\sqrt") {
     LaTeX2Unicode.convert("\\sqrt{}") shouldBe "√"
     LaTeX2Unicode.convert("\\sqrt x") shouldBe "√x̅"
+    LaTeX2Unicode.convert("\\sqrt \\alpha") shouldBe "√α̅"
     LaTeX2Unicode.convert("\\sqrt\nx") shouldBe "√x̅"
     LaTeX2Unicode.convert("\\sqrt[]x") shouldBe "√x̅"
     LaTeX2Unicode.convert("\\sqrt[]\nx") shouldBe "√x̅"
@@ -164,7 +165,11 @@ class LaTeX2UnicodeTest extends FunSuite {
   }
 
   test("Unknown commands") {
-    LaTeX2Unicode.convert("""\this \is \alpha test""") shouldBe """\this \is α test"""
+    LaTeX2Unicode.convert("\\this \\is \\alpha test") shouldBe "\\this \\is α test"
+    LaTeX2Unicode.convert("\\unknown command") shouldBe "\\unknown command"
+    LaTeX2Unicode.convert("\\unknown{} empty params") shouldBe "\\unknown{} empty params"
+    LaTeX2Unicode.convert("\\unknown{cmd}") shouldBe "\\unknown{cmd}"
+    LaTeX2Unicode.convert("\\unknown{1}{2}") shouldBe "\\unknown{1}{2}"
+    LaTeX2Unicode.convert("\\unknown{1}{2}{3}") shouldBe "\\unknown{1}{2}{3}"
   }
-
 }
