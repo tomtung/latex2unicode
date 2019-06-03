@@ -105,8 +105,8 @@ object LaTeX2Unicode {
 
       val parserNoParam = PassWith(command)
       val parserUnary = P(param).map(p => command + p)
-      val parserBinary = P(param ~ param).map({ case (p1, p2) => command + "{" + p1 + "}" + "{" + p2 + "}"})
-      val parserTernary = P(param ~ param ~ param).map({ case (p1, p2, p3) => command + "{" + p1 + "}" + "{" + p2 + "}" + "{" + p3 + "}"})
+      val parserBinary = P(param ~ param).map({ case (p1, p2) => command + "{" + p1 + "}" + "{" + p2 + "}" })
+      val parserTernary = P(param ~ param ~ param).map({ case (p1, p2, p3) => command + "{" + p1 + "}" + "{" + p2 + "}" + "{" + p3 + "}" })
 
       P(parserTernary | parserBinary | parserUnary | parserNoParam)
     }
