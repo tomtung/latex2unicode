@@ -4,9 +4,9 @@ organization := "com.github.tomtung"
 
 version := "0.2.7"
 
-scalaVersion := "2.12.4"
+scalaVersion := "2.12.14"
 
-crossScalaVersions := Seq("2.11.12", "2.12.4")
+crossScalaVersions := Seq("2.11.12", "2.12.14")
 
 licenses := Seq("Apache 2" -> url("http://www.apache.org/licenses/LICENSE-2.0.txt"))
 
@@ -16,7 +16,7 @@ pomIncludeRepository := { _ => false }
 
 libraryDependencies ++= Seq(
   "com.lihaoyi" %% "fastparse" % "1.0.0",
-  "org.scalatest" %% "scalatest" % "3.0.1" % "test"
+  "org.scalatest" %% "scalatest" % "3.0.9" % "test"
 )
 
 publishMavenStyle := true
