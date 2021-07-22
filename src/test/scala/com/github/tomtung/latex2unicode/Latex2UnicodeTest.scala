@@ -31,7 +31,7 @@ class LaTeX2UnicodeTest extends FunSuite {
   }
 
   test("Dashes") {
-    LaTeX2Unicode.convert("5-1 is between 1--10---obviously. ----anonymous") shouldBe "5-1 is between 1–10—obviously. ----anonymous"
+    LaTeX2Unicode.convert("5-1 is between 1--10---obviously. ----anonymous") shouldBe "5−1 is between 1–10—obviously. ----anonymous"
   }
 
   test("Subscript") {
