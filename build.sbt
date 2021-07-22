@@ -16,7 +16,7 @@ pomIncludeRepository := { _ => false }
 
 libraryDependencies ++= Seq(
   "com.lihaoyi" %% "fastparse" % "1.0.0",
-  "org.scalatest" %% "scalatest" % "3.0.9" % "test"
+  "org.scalatest" %% "scalatest" % "3.2.9" % "test"
 )
 
 publishMavenStyle := true

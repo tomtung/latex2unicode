@@ -2,9 +2,11 @@ package com.github.tomtung.latex2unicode
 
 import fastparse.all.Parsed.Failure
 import org.scalatest._
-import org.scalatest.Matchers._
+import matchers.should.Matchers._
+import org.scalatest.matchers
+import org.scalatest.funsuite.AnyFunSuite
 
-class LaTeX2UnicodeTest extends FunSuite {
+class LaTeX2UnicodeTest extends AnyFunSuite {
 
   test("Empty string") {
     LaTeX2Unicode.convert("") shouldBe ""
