@@ -40,8 +40,7 @@ object LaTeX2Unicode {
 
     private val name: Parser[String] = P(
       (("-".rep(1) | CharIn("$^_~")).! ~/ Pass) |
-        ("\\" ~/ (CharsWhile(_.isLetter) | AnyChar) ~/ Pass).!
-    )
+        ("\\" ~/ (CharsWhile(_.isLetter) | AnyChar) ~/ Pass).!)
 
     // Literals inside option must not contain "]"
     private val literalCharsBlockInOption: Parser[String] = P(CharsWhile(c => c != ']' && isLiteralChar(c))).!
@@ -85,8 +84,7 @@ object LaTeX2Unicode {
       for (s <- helper.UnaryWithOption.names) {
         val parser = P(
           ignoreSpaces ~ ("[" ~/ ignoreSpaces ~ blocksInOption ~ ignoreSpaces ~ "]").? ~/
-            ignoreSpaces ~ param
-        ).map({
+            ignoreSpaces ~ param).map({
             case (opt, p) => helper.UnaryWithOption.translate(s, opt.getOrElse(""), p)
           })
         builder += s -> parser

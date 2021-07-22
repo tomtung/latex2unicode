@@ -18,8 +18,7 @@ object Binary {
     ("1", "8") -> "⅛",
     ("3", "8") -> "⅜",
     ("5", "8") -> "⅝",
-    ("7", "8") -> "⅞"
-  )
+    ("7", "8") -> "⅞")
 
   def shouldParenthesizeStringWithChar(c: Char): Boolean = {
     !c.isLetterOrDigit && !Unary.isCombiningChar(c) && {

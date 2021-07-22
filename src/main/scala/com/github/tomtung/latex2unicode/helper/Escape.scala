@@ -416,8 +416,7 @@ object Escape {
     "\\pounds" -> "£",
     "\\euro" -> "€",
     "\\EUR" -> "€",
-    "\\texteuro" -> "€"
-  )
+    "\\texteuro" -> "€")
 
   val names: Set[String] = escapes.keySet
 
