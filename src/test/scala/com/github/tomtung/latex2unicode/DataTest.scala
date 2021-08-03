@@ -2,9 +2,11 @@ package com.github.tomtung.latex2unicode
 
 import com.github.tomtung.latex2unicode.helper._
 import org.scalatest._
-import org.scalatest.Matchers._
+import matchers.should.Matchers._
+import org.scalatest.matchers
+import org.scalatest.funsuite.AnyFunSuite
 
-class DataTest extends FunSuite {
+class DataTest extends AnyFunSuite {
 
   test("Command names should be trimmed") {
     for (

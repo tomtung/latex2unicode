@@ -20,7 +20,7 @@ object Escape {
     "\\qquad" -> " ",
     """\\""" -> "\n",
 
-    "-" -> "-",
+    "-" -> "\u2212",
     "--" -> "\u2013",
     "---" -> "\u2014",
 
@@ -416,8 +416,7 @@ object Escape {
     "\\pounds" -> "£",
     "\\euro" -> "€",
     "\\EUR" -> "€",
-    "\\texteuro" -> "€"
-  )
+    "\\texteuro" -> "€")
 
   val names: Set[String] = escapes.keySet
 

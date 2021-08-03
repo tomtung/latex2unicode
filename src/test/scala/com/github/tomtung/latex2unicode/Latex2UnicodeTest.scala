@@ -2,9 +2,11 @@ package com.github.tomtung.latex2unicode
 
 import fastparse.all.Parsed.Failure
 import org.scalatest._
-import org.scalatest.Matchers._
+import matchers.should.Matchers._
+import org.scalatest.matchers
+import org.scalatest.funsuite.AnyFunSuite
 
-class LaTeX2UnicodeTest extends FunSuite {
+class LaTeX2UnicodeTest extends AnyFunSuite {
 
   test("Empty string") {
     LaTeX2Unicode.convert("") shouldBe ""
@@ -31,7 +33,7 @@ class LaTeX2UnicodeTest extends FunSuite {
   }
 
   test("Dashes") {
-    LaTeX2Unicode.convert("5-1 is between 1--10---obviously. ----anonymous") shouldBe "5-1 is between 1–10—obviously. ----anonymous"
+    LaTeX2Unicode.convert("5-1 is between 1--10---obviously. ----anonymous") shouldBe "5−1 is between 1–10—obviously. ----anonymous"
   }
 
   test("Subscript") {

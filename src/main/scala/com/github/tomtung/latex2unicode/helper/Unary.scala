@@ -40,8 +40,7 @@ object Unary {
     "\\underbar" -> ('\u0332', CombiningType.EveryChar),
     "\\t" -> ('\u0361', CombiningType.FirstChar),
     "\\vec" -> ('\u20D7', CombiningType.FirstChar),
-    "\\textcircled" -> ('\u20DD', CombiningType.FirstChar)
-  )
+    "\\textcircled" -> ('\u20DD', CombiningType.FirstChar))
 
   def isCombiningChar(char: Char): Boolean = {
     '\u0300' <= char && char <= '\u036F' ||
@@ -138,8 +137,7 @@ object Unary {
     "◁" -> "⋪",
     "▷" -> "⋫",
     "⋞" -> "⋠",
-    "⋟" -> "⋡"
-  )
+    "⋟" -> "⋡")
 
   def makeNot(negated: String): String = {
     val s = negated.trim match {
@@ -181,8 +179,7 @@ object Unary {
     '+' -> '₊',
     ')' -> '₎',
     '(' -> '₍',
-    ' ' -> ' '
-  )
+    ' ' -> ' ')
 
   def tryMakeSubscript(str: String): Option[String] = {
     if (str.isEmpty) Some("")
@@ -270,8 +267,7 @@ object Unary {
     ')' -> '⁾',
     '(' -> '⁽',
     '∘' -> '°',
-    ' ' -> ' '
-  )
+    ' ' -> ' ')
 
   def tryMakeSuperScript(str: String): Option[String] = {
     if (str.isEmpty) Some("")
@@ -350,8 +346,7 @@ object Unary {
     '3' -> "𝟛",
     '2' -> "𝟚",
     '1' -> "𝟙",
-    '0' -> "𝟘"
-  )
+    '0' -> "𝟘")
 
   val bf = Map(
     '∇' -> "𝛁",
@@ -473,8 +468,7 @@ object Unary {
     '3' -> "𝟑",
     '2' -> "𝟐",
     '1' -> "𝟏",
-    '0' -> "𝟎"
-  )
+    '0' -> "𝟎")
 
   val cal = Map(
     'z' -> "𝔃",
@@ -528,8 +522,7 @@ object Unary {
     'D' -> "𝓓",
     'C' -> "𝓒",
     'B' -> "𝓑",
-    'A' -> "𝓐"
-  )
+    'A' -> "𝓐")
 
   val frak = Map(
     'z' -> "𝔷",
@@ -583,8 +576,7 @@ object Unary {
     'D' -> "𝔇",
     'C' -> "ℭ",
     'B' -> "𝔅",
-    'A' -> "𝔄"
-  )
+    'A' -> "𝔄")
 
   val it = Map(
     '∇' -> "𝛻",
@@ -696,8 +688,7 @@ object Unary {
     'D' -> "𝐷",
     'C' -> "𝐶",
     'B' -> "𝐵",
-    'A' -> "𝐴"
-  )
+    'A' -> "𝐴")
 
   val tt = Map(
     'z' -> "𝚣",
@@ -761,8 +752,7 @@ object Unary {
     '3' -> "𝟹",
     '2' -> "𝟸",
     '1' -> "𝟷",
-    '0' -> "𝟶"
-  )
+    '0' -> "𝟶")
 
   val styles = Map(
     "\\mathbb" -> bb,
@@ -776,8 +766,7 @@ object Unary {
     "\\mathit" -> it,
     "\\textit" -> it,
     "\\mathtt" -> tt,
-    "\\texttt" -> tt
-  )
+    "\\texttt" -> tt)
 
   def isStylesCommand(command: String): Boolean = styles.contains(command)
 

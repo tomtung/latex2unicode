@@ -5,8 +5,7 @@ object Style {
     "\\bf" -> "\\textbf",
     "\\cal" -> "\\textcal",
     "\\it" -> "\\textit",
-    "\\tt" -> "\\texttt"
-  )
+    "\\tt" -> "\\texttt")
 
   val names: Set[String] = alias.keySet
 
