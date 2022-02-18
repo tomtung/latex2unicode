@@ -40,14 +40,15 @@ object Unary {
     "\\underbar" -> ('\u0332', CombiningType.EveryChar),
     "\\t" -> ('\u0361', CombiningType.FirstChar),
     "\\vec" -> ('\u20D7', CombiningType.FirstChar),
-    "\\textcircled" -> ('\u20DD', CombiningType.FirstChar))
+    "\\textcircled" -> ('\u20DD', CombiningType.FirstChar)
+  )
 
   def isCombiningChar(char: Char): Boolean = {
     '\u0300' <= char && char <= '\u036F' ||
-      '\u1AB0' <= char && char <= '\u1AFF' ||
-      '\u1DC0' <= char && char <= '\u1DFF' ||
-      '\u20D0' <= char && char <= '\u20FF' ||
-      '\uFE20' <= char && char <= '\uFE20'
+    '\u1AB0' <= char && char <= '\u1AFF' ||
+    '\u1DC0' <= char && char <= '\u1DFF' ||
+    '\u20D0' <= char && char <= '\u20FF' ||
+    '\uFE20' <= char && char <= '\uFE20'
   }
 
   def isCombiningOrControlChar(char: Char): Boolean = {
@@ -71,7 +72,9 @@ object Unary {
       case CombiningType.FirstChar =>
         var i = 1
         // Find the position after the last combining char that decorates the first char
-        while (i < strOrSpace.length && isCombiningOrControlChar(strOrSpace(i))) {
+        while (
+          i < strOrSpace.length && isCombiningOrControlChar(strOrSpace(i))
+        ) {
           i += 1
         }
         // Then insert the new combining char there
@@ -137,11 +140,12 @@ object Unary {
     "◁" -> "⋪",
     "▷" -> "⋫",
     "⋞" -> "⋠",
-    "⋟" -> "⋡")
+    "⋟" -> "⋡"
+  )
 
   def makeNot(negated: String): String = {
     val s = negated.trim match {
-      case "" => " "
+      case ""      => " "
       case trimmed => trimmed
     }
     not.getOrElse(s, s.head + "\u0338" + s.tail)
@@ -179,7 +183,8 @@ object Unary {
     '+' -> '₊',
     ')' -> '₎',
     '(' -> '₍',
-    ' ' -> ' ')
+    ' ' -> ' '
+  )
 
   def tryMakeSubscript(str: String): Option[String] = {
     if (str.isEmpty) Some("")
@@ -190,7 +195,7 @@ object Unary {
   def makeSubscript(str: String): String = {
     str.trim match {
       case "" => ""
-      case s => tryMakeSubscript(s).getOrElse(s"_($s)")
+      case s  => tryMakeSubscript(s).getOrElse(s"_($s)")
     }
   }
 
@@ -267,7 +272,8 @@ object Unary {
     ')' -> '⁾',
     '(' -> '⁽',
     '∘' -> '°',
-    ' ' -> ' ')
+    ' ' -> ' '
+  )
 
   def tryMakeSuperScript(str: String): Option[String] = {
     if (str.isEmpty) Some("")
@@ -278,7 +284,7 @@ object Unary {
   def makeSuperScript(str: String): String = {
     str.trim match {
       case "" => ""
-      case s => tryMakeSuperScript(s).getOrElse(s"^($s)")
+      case s  => tryMakeSuperScript(s).getOrElse(s"^($s)")
     }
   }
 
@@ -346,7 +352,8 @@ object Unary {
     '3' -> "𝟛",
     '2' -> "𝟚",
     '1' -> "𝟙",
-    '0' -> "𝟘")
+    '0' -> "𝟘"
+  )
 
   val bf = Map(
     '∇' -> "𝛁",
@@ -468,7 +475,8 @@ object Unary {
     '3' -> "𝟑",
     '2' -> "𝟐",
     '1' -> "𝟏",
-    '0' -> "𝟎")
+    '0' -> "𝟎"
+  )
 
   val cal = Map(
     'z' -> "𝔃",
@@ -522,7 +530,8 @@ object Unary {
     'D' -> "𝓓",
     'C' -> "𝓒",
     'B' -> "𝓑",
-    'A' -> "𝓐")
+    'A' -> "𝓐"
+  )
 
   val frak = Map(
     'z' -> "𝔷",
@@ -576,7 +585,8 @@ object Unary {
     'D' -> "𝔇",
     'C' -> "ℭ",
     'B' -> "𝔅",
-    'A' -> "𝔄")
+    'A' -> "𝔄"
+  )
 
   val it = Map(
     '∇' -> "𝛻",
@@ -688,7 +698,8 @@ object Unary {
     'D' -> "𝐷",
     'C' -> "𝐶",
     'B' -> "𝐵",
-    'A' -> "𝐴")
+    'A' -> "𝐴"
+  )
 
   val tt = Map(
     'z' -> "𝚣",
@@ -752,7 +763,8 @@ object Unary {
     '3' -> "𝟹",
     '2' -> "𝟸",
     '1' -> "𝟷",
-    '0' -> "𝟶")
+    '0' -> "𝟶"
+  )
 
   val styles = Map(
     "\\mathbb" -> bb,
@@ -766,7 +778,8 @@ object Unary {
     "\\mathit" -> it,
     "\\textit" -> it,
     "\\mathtt" -> tt,
-    "\\texttt" -> tt)
+    "\\texttt" -> tt
+  )
 
   def isStylesCommand(command: String): Boolean = styles.contains(command)
 
@@ -781,7 +794,13 @@ object Unary {
 
   // Common helper interface
 
-  val names: Set[String] = Set("\\not", "_", "^", "\\textsubscript", "\\textsuperscript") ++ combining.keys ++ styles.keys
+  val names: Set[String] = Set(
+    "\\not",
+    "_",
+    "^",
+    "\\textsubscript",
+    "\\textsuperscript"
+  ) ++ combining.keys ++ styles.keys
 
   def translate(command: String, param: String): String = {
     if (!names.contains(command)) {
@@ -789,10 +808,11 @@ object Unary {
     }
 
     command match {
-      case "_" | "\\textsubscript" => makeSubscript(param)
+      case "_" | "\\textsubscript"   => makeSubscript(param)
       case "^" | "\\textsuperscript" => makeSuperScript(param)
-      case "\\not" => makeNot(param)
-      case _ if isCombiningCommand(command) => translateCombining(command, param)
+      case "\\not"                   => makeNot(param)
+      case _ if isCombiningCommand(command) =>
+        translateCombining(command, param)
       case _ if isStylesCommand(command) => translateStyles(command, param)
     }
   }

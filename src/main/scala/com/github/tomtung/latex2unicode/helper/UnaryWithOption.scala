@@ -4,8 +4,8 @@ object UnaryWithOption {
   def makeSqrt(index: String, radicand: String): String = {
     val radix = index match {
       case "" | "2" => "√"
-      case "3" => "∛"
-      case "4" => "∜"
+      case "3"      => "∛"
+      case "4"      => "∜"
       case _ => Unary.tryMakeSuperScript(index).getOrElse(s"($index)") + "√"
     }
 

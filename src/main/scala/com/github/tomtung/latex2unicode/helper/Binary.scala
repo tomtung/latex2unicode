@@ -18,7 +18,8 @@ object Binary {
     ("1", "8") -> "⅛",
     ("3", "8") -> "⅜",
     ("5", "8") -> "⅝",
-    ("7", "8") -> "⅞")
+    ("7", "8") -> "⅞"
+  )
 
   def shouldParenthesizeStringWithChar(c: Char): Boolean = {
     !c.isLetterOrDigit && !Unary.isCombiningChar(c) && {
@@ -35,12 +36,13 @@ object Binary {
   def makeFraction(numerator: String, denominator: String): String = {
     val (n, d) = (numerator.trim, denominator.trim)
     if (n.isEmpty && d.isEmpty) ""
-    else frac.get((numerator.trim, denominator.trim)) match {
-      case Some(s) =>
-        s
-      case None =>
-        s"(${maybeParenthesize(numerator)}/${maybeParenthesize(denominator)})"
-    }
+    else
+      frac.get((numerator.trim, denominator.trim)) match {
+        case Some(s) =>
+          s
+        case None =>
+          s"(${maybeParenthesize(numerator)}/${maybeParenthesize(denominator)})"
+      }
   }
 
   // Common helper interface
