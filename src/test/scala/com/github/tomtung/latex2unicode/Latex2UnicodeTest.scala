@@ -1,6 +1,6 @@
 package com.github.tomtung.latex2unicode
 
-import fastparse.all.Parsed.Failure
+import fastparse.Parsed.Failure
 import org.scalatest._
 import matchers.should.Matchers._
 import org.scalatest.matchers
@@ -17,11 +17,15 @@ class LaTeX2UnicodeTest extends AnyFunSuite {
   }
 
   test("Spaces") {
-    LaTeX2Unicode.convert("\nthis  \t \tis    \n\t\n \n \t\t\na  \n\t  test   ") shouldBe " this is\n\na test "
+    LaTeX2Unicode.convert(
+      "\nthis  \t \tis    \n\t\n \n \t\t\na  \n\t  test   "
+    ) shouldBe " this is\n\na test "
   }
 
   test("Brackets") {
-    LaTeX2Unicode.convert("{this {{i}{s}}{ a \n\n} test}") shouldBe "this is a\n\n test"
+    LaTeX2Unicode.convert(
+      "{this {{i}{s}}{ a \n\n} test}"
+    ) shouldBe "this is a\n\n test"
 
     LaTeX2Unicode.parse("{") shouldBe a[Failure]
     LaTeX2Unicode.parse("{ ") shouldBe a[Failure]
@@ -29,11 +33,15 @@ class LaTeX2UnicodeTest extends AnyFunSuite {
   }
 
   test("Escape") {
-    LaTeX2Unicode.convert("""\S\{this is ~$\alpha$~ test\}""") shouldBe "§{this is  α  test}"
+    LaTeX2Unicode.convert(
+      """\S\{this is ~$\alpha$~ test\}"""
+    ) shouldBe "§{this is  α  test}"
   }
 
   test("Dashes") {
-    LaTeX2Unicode.convert("5-1 is between 1--10---obviously. ----anonymous") shouldBe "5−1 is between 1–10—obviously. ----anonymous"
+    LaTeX2Unicode.convert(
+      "5-1 is between 1--10---obviously. ----anonymous"
+    ) shouldBe "5−1 is between 1–10—obviously. ----anonymous"
   }
 
   test("Subscript") {
@@ -46,7 +54,9 @@ class LaTeX2UnicodeTest extends AnyFunSuite {
     LaTeX2Unicode.convert("i\\textsubscript 123") shouldBe "i₁23"
     LaTeX2Unicode.convert("i\\textsubscript{123}") shouldBe "i₁₂₃"
     LaTeX2Unicode.convert("i\\textsubscript\n  { 123 }") shouldBe "i₁₂₃"
-    LaTeX2Unicode.convert("i\\textsubscript{i\\textsubscript{123 }}") shouldBe "i_(i₁₂₃)"
+    LaTeX2Unicode.convert(
+      "i\\textsubscript{i\\textsubscript{123 }}"
+    ) shouldBe "i_(i₁₂₃)"
 
     LaTeX2Unicode.parse("_") shouldBe a[Failure]
     LaTeX2Unicode.parse("_ ") shouldBe a[Failure]
@@ -64,7 +74,9 @@ class LaTeX2UnicodeTest extends AnyFunSuite {
     LaTeX2Unicode.convert("i\\textsuperscript 123") shouldBe "i¹23"
     LaTeX2Unicode.convert("i\\textsuperscript{123}") shouldBe "i¹²³"
     LaTeX2Unicode.convert("i\\textsuperscript\n  { 123 }") shouldBe "i¹²³"
-    LaTeX2Unicode.convert("i\\textsuperscript{i\\textsuperscript{123 }}") shouldBe "i^(i¹²³)"
+    LaTeX2Unicode.convert(
+      "i\\textsuperscript{i\\textsuperscript{123 }}"
+    ) shouldBe "i^(i¹²³)"
 
     LaTeX2Unicode.parse("^") shouldBe a[Failure]
     LaTeX2Unicode.parse("^ ") shouldBe a[Failure]
@@ -95,7 +107,9 @@ class LaTeX2UnicodeTest extends AnyFunSuite {
     LaTeX2Unicode.convert("\\={}") shouldBe " \u0304"
     LaTeX2Unicode.convert("\\bar{ab}") shouldBe "a\u0304b"
     LaTeX2Unicode.convert("\\={ab}") shouldBe "a\u0304b"
-    LaTeX2Unicode.convert("\\=\\k\\underline\\overline{a\\=bc}") shouldBe "a\u0305\u0332\u0304b\u0304\u0305\u0332c\u0305\u0332\u0328"
+    LaTeX2Unicode.convert(
+      "\\=\\k\\underline\\overline{a\\=bc}"
+    ) shouldBe "a\u0305\u0332\u0304b\u0304\u0305\u0332c\u0305\u0332\u0328"
 
     LaTeX2Unicode.parse("\\bar") shouldBe a[Failure]
     LaTeX2Unicode.parse("\\bar ") shouldBe a[Failure]
@@ -109,10 +123,16 @@ class LaTeX2UnicodeTest extends AnyFunSuite {
   test("Style") {
     LaTeX2Unicode.convert("\\mathbf{}") shouldBe ""
     LaTeX2Unicode.convert("\\mathbf ABC \\mathit ABC") shouldBe "𝐀BC 𝐴BC"
-    LaTeX2Unicode.convert("\\mathbf {ABC} \\mathit {ABC}") shouldBe "𝐀𝐁𝐂 𝐴𝐵𝐶"
+    LaTeX2Unicode.convert(
+      "\\mathbf {ABC} \\mathit {ABC}"
+    ) shouldBe "𝐀𝐁𝐂 𝐴𝐵𝐶"
     LaTeX2Unicode.convert("\\bf \\it ") shouldBe ""
-    LaTeX2Unicode.convert("ABC {\\bf ABC} {\\it ABC} ABC") shouldBe "ABC 𝐀𝐁𝐂 𝐴𝐵𝐶 ABC"
-    LaTeX2Unicode.convert("ABC \\bf ABC \\it ABC ABC") shouldBe "ABC 𝐀𝐁𝐂 𝐴𝐵𝐶 𝐴𝐵𝐶"
+    LaTeX2Unicode.convert(
+      "ABC {\\bf ABC} {\\it ABC} ABC"
+    ) shouldBe "ABC 𝐀𝐁𝐂 𝐴𝐵𝐶 ABC"
+    LaTeX2Unicode.convert(
+      "ABC \\bf ABC \\it ABC ABC"
+    ) shouldBe "ABC 𝐀𝐁𝐂 𝐴𝐵𝐶 𝐴𝐵𝐶"
     LaTeX2Unicode.convert("A\\bf\n\nB\n\nC") shouldBe "A\n\n𝐁\n\n𝐂"
 
     LaTeX2Unicode.parse("\\mathbf") shouldBe a[Failure]
@@ -151,7 +171,9 @@ class LaTeX2UnicodeTest extends AnyFunSuite {
     LaTeX2Unicode.convert("\\frac34") shouldBe "¾"
     LaTeX2Unicode.convert("\\frac 34") shouldBe "¾"
     LaTeX2Unicode.convert("\\frac\n34") shouldBe "¾"
-    LaTeX2Unicode.convert("\\frac{\\hat\\alpha_1^2}{test\\_test}") shouldBe "(α̂₁²/test_test)"
+    LaTeX2Unicode.convert(
+      "\\frac{\\hat\\alpha_1^2}{test\\_test}"
+    ) shouldBe "(α̂₁²/test_test)"
     LaTeX2Unicode.convert("\\frac{1}{}") shouldBe "(1/)"
     LaTeX2Unicode.convert("\\frac{}{1}") shouldBe "(/1)"
     LaTeX2Unicode.convert("\\frac{a+b}{c}") shouldBe "((a+b)/c)"
@@ -167,9 +189,13 @@ class LaTeX2UnicodeTest extends AnyFunSuite {
   }
 
   test("Unknown commands") {
-    LaTeX2Unicode.convert("\\this \\is \\alpha test") shouldBe "\\this \\is α test"
+    LaTeX2Unicode.convert(
+      "\\this \\is \\alpha test"
+    ) shouldBe "\\this \\is α test"
     LaTeX2Unicode.convert("\\unknown command") shouldBe "\\unknown command"
-    LaTeX2Unicode.convert("\\unknown{} empty params") shouldBe "\\unknown{} empty params"
+    LaTeX2Unicode.convert(
+      "\\unknown{} empty params"
+    ) shouldBe "\\unknown{} empty params"
     LaTeX2Unicode.convert("\\unknown{cmd}") shouldBe "\\unknown{cmd}"
     LaTeX2Unicode.convert("\\unknown{1}{2}") shouldBe "\\unknown{1}{2}"
     LaTeX2Unicode.convert("\\unknown{1}{2}{3}") shouldBe "\\unknown{1}{2}{3}"

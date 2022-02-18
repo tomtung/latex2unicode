@@ -9,7 +9,6 @@ object Escape {
     "\\%" -> "%",
     "\\#" -> "#",
     "\\_" -> "_",
-
     "$" -> "", // Ignore $
 
     "~" -> " ",
@@ -19,11 +18,9 @@ object Escape {
     "\\quad" -> " ",
     "\\qquad" -> " ",
     """\\""" -> "\n",
-
     "-" -> "\u2212",
     "--" -> "\u2013",
     "---" -> "\u2014",
-
     "\\colon" -> ":",
     "\\lbrack" -> "[",
     "\\rbrack" -> "]",
@@ -78,7 +75,6 @@ object Escape {
     "\\psi" -> "ψ",
     "\\Omega" -> "Ω",
     "\\omega" -> "ω",
-
     "\\P" -> "¶",
     "\\S" -> "§",
     "\\|" -> "‖",
@@ -416,7 +412,8 @@ object Escape {
     "\\pounds" -> "£",
     "\\euro" -> "€",
     "\\EUR" -> "€",
-    "\\texteuro" -> "€")
+    "\\texteuro" -> "€"
+  )
 
   val names: Set[String] = escapes.keySet
 
