@@ -5,7 +5,7 @@
 [latex-to-unicode by ypsu]: https://github.com/ypsu/latex-to-unicode
 [latex-to-unicode by vikhyat]: https://github.com/vikhyat/latex-to-unicode
 
-# LaTeX2Unicode [![Build Status](https://travis-ci.org/tomtung/latex2unicode.svg?branch=master)](https://travis-ci.org/tomtung/latex2unicode)
+# LaTeX2Unicode [![Build Status](https://github.com/tomtung/latex2unicode/actions/workflows/scala.yml/badge.svg)](https://github.com/tomtung/latex2unicode/actions/workflows/scala.yml)
 
 LaTeX2Unicode translates LaTeX markup to human readable Unicode when possible. Here's an [online demo] that can be conveniently used to type in special characters. ([demo source])
 
