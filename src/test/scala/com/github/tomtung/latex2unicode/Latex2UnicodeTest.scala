@@ -57,6 +57,7 @@ class LaTeX2UnicodeTest extends AnyFunSuite {
     LaTeX2Unicode.convert(
       "i\\textsubscript{i\\textsubscript{123 }}"
     ) shouldBe "i_(i₁₂₃)"
+    LaTeX2Unicode.convert("e_-") shouldBe "e₋"
 
     LaTeX2Unicode.parse("_") shouldBe a[Failure]
     LaTeX2Unicode.parse("_ ") shouldBe a[Failure]
@@ -77,6 +78,7 @@ class LaTeX2UnicodeTest extends AnyFunSuite {
     LaTeX2Unicode.convert(
       "i\\textsuperscript{i\\textsuperscript{123 }}"
     ) shouldBe "i^(i¹²³)"
+    LaTeX2Unicode.convert("e^-") shouldBe "e⁻"
 
     LaTeX2Unicode.parse("^") shouldBe a[Failure]
     LaTeX2Unicode.parse("^ ") shouldBe a[Failure]
