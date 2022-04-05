@@ -1,6 +1,6 @@
 name := "latex2unicode"
 
-version := "0.3.0"
+version := "0.3.1"
 val scala211 = "2.11.12"
 val scala212 = "2.12.15"
 val scala213 = "2.13.8"
