@@ -44,6 +44,12 @@ class LaTeX2UnicodeTest extends AnyFunSuite {
     ) shouldBe "5−1 is between 1–10—obviously. ----anonymous"
   }
 
+  test("ams arrows") {
+    LaTeX2Unicode.convert("\\to") shouldBe "→"
+    LaTeX2Unicode.convert("\\gets") shouldBe "←"
+    LaTeX2Unicode.convert("\\iff") shouldBe "⇔"
+  }
+
   test("Subscript") {
     LaTeX2Unicode.convert("i_{}") shouldBe "i"
     LaTeX2Unicode.convert("i_123") shouldBe "i₁23"
