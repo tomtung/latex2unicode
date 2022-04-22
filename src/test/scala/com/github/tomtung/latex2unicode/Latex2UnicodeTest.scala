@@ -41,7 +41,7 @@ class LaTeX2UnicodeTest extends AnyFunSuite {
   test("Dashes") {
     LaTeX2Unicode.convert(
       "5-1 is between 1--10---obviously. ----anonymous"
-    ) shouldBe "5−1 is between 1–10—obviously. ----anonymous"
+    ) shouldBe "5-1 is between 1-10—obviously. ----anonymous"
   }
 
   test("ams arrows") {
