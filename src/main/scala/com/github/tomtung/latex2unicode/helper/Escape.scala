@@ -18,7 +18,7 @@ object Escape {
     "\\quad" -> " ",
     "\\qquad" -> " ",
     """\\""" -> "\n",
-    "-" -> "\u2212",
+    "-" -> "-",
     "--" -> "\u2013",
     "---" -> "\u2014",
     "\\colon" -> ":",
@@ -38,6 +38,7 @@ object Escape {
     "\\textregistered" -> "®",
     "\\textquestiondown" -> "¿",
     "\\textvisiblespace" -> "␣",
+    "\\textminus" -> "\u2212",
 
     // Greek alphabet
     "\\alpha" -> "α",
